@@ -1,0 +1,9 @@
+<resources>
+    <!-- Use a Material Components theme -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Set the action bar color -->
+        <item name="colorPrimary">@color/green</item>
+        <!-- Set the status bar color -->
+        <item name="android:statusBarColor">@color/green</item>
+    </style>
+</resources>
