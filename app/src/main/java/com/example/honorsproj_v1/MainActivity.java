@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        autoCompleteTextView1 = findViewById(R.id.auto_complete_textview1);
-        autoCompleteTextView2 = findViewById(R.id.auto_complete_textview2);
+        autoCompleteTextView1 = findViewById(R.id.auto_complete_raceView);
+        autoCompleteTextView2 = findViewById(R.id.auto_complete_meetingView);
 
         adapterItems = new ArrayAdapter<>(this,R.layout.list_item, item);
 

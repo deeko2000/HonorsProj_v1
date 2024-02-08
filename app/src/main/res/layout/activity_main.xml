@@ -11,11 +11,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:hint="@string/race"
-        android:id="@+id/textview1"
+        android:id="@+id/raceView"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
         <AutoCompleteTextView
-            android:id="@+id/auto_complete_textview1"
+            android:id="@+id/auto_complete_raceView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"/>
@@ -27,17 +27,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:layout_below="@id/textview1"
+        android:layout_below="@id/raceView"
+        android:id="@+id/meetingView"
         android:hint="@string/meeting"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
         <AutoCompleteTextView
-            android:id="@+id/auto_complete_textview2"
+            android:id="@+id/auto_complete_meetingView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"/>
-
-
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+
+        />
 
 </RelativeLayout>
