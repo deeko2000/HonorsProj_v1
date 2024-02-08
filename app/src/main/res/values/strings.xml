@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">HonorsProj_v1</string>
-    <string name="select">Select Item</string>
+    <string name="race">Select Race</string>
+    <string name="meeting">Select Meeting</string>
 </resources>

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="@string/select"
+        android:hint="@string/race"
         android:id="@+id/textview1"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_below="@id/textview1"
-        android:hint="@string/select"
+        android:hint="@string/meeting"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
         <AutoCompleteTextView
