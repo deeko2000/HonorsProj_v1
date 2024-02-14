@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:hint="@string/race">
+            android:hint="@string/meeting">
 
             <AutoCompleteTextView
                 android:id="@+id/auto_complete_raceView"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/raceView"
             android:layout_margin="16dp"
-            android:hint="@string/meeting">
+            android:hint="@string/race">
 
             <AutoCompleteTextView
                 android:id="@+id/auto_complete_meetingView"
@@ -70,6 +70,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="20dp"
                     android:layout_weight="1"
+                    android:clickable="false"
                     android:text="Meeting One" />
 
                 <Button
@@ -79,6 +80,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="20dp"
                     android:layout_weight="1"
+                    android:clickable="false"
                     android:text="Meeting Two" />
 
             </LinearLayout>
@@ -95,6 +97,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="20dp"
                     android:layout_weight="1"
+                    android:clickable="false"
                     android:text="Meeting Three" />
 
                 <Button
@@ -104,6 +107,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="20dp"
                     android:layout_weight="1"
+                    android:clickable="false"
                     android:text="Meeting Four" />
 
             </LinearLayout>
