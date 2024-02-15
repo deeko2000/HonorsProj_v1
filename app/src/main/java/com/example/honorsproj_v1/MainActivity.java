@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button btn = (Button)findViewById(R.id.race_button);
-
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

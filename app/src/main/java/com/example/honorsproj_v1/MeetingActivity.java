@@ -2,6 +2,7 @@ package com.example.honorsproj_v1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -47,5 +48,19 @@ public class MeetingActivity extends AppCompatActivity {
         // Set adapter to ListView
         ListView listView = findViewById(R.id.listViewHorses);
         listView.setAdapter(adapter);
+
+        // Set OnItemClickListener to ListView
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+//                // Retrieve the clicked item
+                String selectedHorse = (String) adapterView.getItemAtPosition(position);
+
+                // Start a new activity, passing selectedHorse data to it
+                Intent intent = new Intent(MeetingActivity.this, HorseActivity.class);
+                intent.putExtra("selectedHorse", selectedHorse);
+                startActivity(intent);
+            }
+        });
     }
 }
