@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 String item = adapterView.getItemAtPosition(position).toString();
-                Toast.makeText(MainActivity.this, "items   " + item, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "item   " + item, Toast.LENGTH_SHORT).show();
             }
         });
         autoCompleteTextView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
