@@ -18,9 +18,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import java.io.IOException;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 public class MainActivity extends AppCompatActivity {
-
+    private MainViewModel viewModel;
 
     String[] meetings = {"Meeting 1", "Meeting 2", "Meeting 3", "Meeting 4", "Meeting 5"};
     String[] races = {"Race 1", "Race 2", "Race 3", "Race 4", "Race 5"};
@@ -44,6 +47,19 @@ public class MainActivity extends AppCompatActivity {
         autoCompleteTextView1.setAdapter(adapterRaces);
         autoCompleteTextView2.setAdapter(adapterMeetings);
 
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+
+        // Observe LiveData
+        viewModel.getApiResponseLiveData().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String responseData) {
+                // Update UI with responseData
+            }
+        });
+
+        // Make API call
+        viewModel.makeApiCall();
+
         autoCompleteTextView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -66,37 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, MeetingActivity.class));
             }
         });
-        //makeApiCall();
-    }
 
-    private void makeApiCall() {
-        OkHttpClient client = new OkHttpClient();
-
-        Request request = new Request.Builder()
-                .url("https://andruxnet-random-famous-quotes.p.rapidapi.com/?cat=movies&count=10")
-                .addHeader("X-RapidAPI-Key", "14592a19b7msha506b13166c4e3fp16bc30jsn1ca5f22e6ec7")
-                .addHeader("X-RapidAPI-Host", "andruxnet-random-famous-quotes.p.rapidapi.com")
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                // Handle failure
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    // Handle successful response
-                    String responseData = response.body().string();
-                    System.out.println(responseData);
-                    // Process the response data here
-                } else {
-                    // Handle error response
-                    // You might want to handle different HTTP error codes differently
-                }
-            }
-        });
     }
 }
