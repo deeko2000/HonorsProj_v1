@@ -81,7 +81,7 @@ public class MainViewModel extends AndroidViewModel {
 
     void printFileContents() {
         String fileContents = readFileContents();
-        Log.d("MainViewModel", "File contentss: " + fileContents);
+        Log.d("MainViewModel", "File contents: " + fileContents);
     }
 
     private String readFileContents() {
