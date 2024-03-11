@@ -58,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Make API call
-        viewModel.makeApiCall();
+        viewModel.makeApiCallAndSaveToFile();
+        // Print file contents
+        viewModel.printFileContents();
 
         autoCompleteTextView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
