@@ -1,6 +1,7 @@
 package com.example.honorsproj_v1;
 
 import android.graphics.Color;
+import android.graphics.Color;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import com.github.mikephil.charting.charts.LineChart;
@@ -21,6 +22,8 @@ public class HorseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_horse);
+        // Set custom title
+        setTitle("Horses");
 
         LineChart lineChart = findViewById(R.id.lineChart);
         RadarChart radarChart = findViewById(R.id.radarChart);

@@ -26,6 +26,7 @@ public class MeetingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meeting);
+        setTitle("Meeting");
 
         autoCompleteTextView1 = findViewById(R.id.auto_complete_raceView);
 
