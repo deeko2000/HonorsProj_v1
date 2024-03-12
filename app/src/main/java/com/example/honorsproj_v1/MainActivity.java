@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Make API call
+        //viewModel.clearSavedData();
         viewModel.makeApiCallAndSaveToFile();
         // Print file contents
         viewModel.printFileContents();
