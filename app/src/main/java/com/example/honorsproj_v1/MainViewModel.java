@@ -43,14 +43,24 @@ public class MainViewModel extends AndroidViewModel {
         // Check if data has already been saved today
         if (isDataSavedToday()) {
             Log.d("MainViewModel", "Data has already been saved today");
-            return; // Exit method if data has already been saved today
+            // If data has already been saved today, you might want to do something else or just return
+            return;
         }
 
         // If data has not been saved today, make the API call
         OkHttpClient client = new OkHttpClient();
 
+        // Get the current date
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1; // January is 0, so add 1
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Build the URL with the current date
+        String url = "https://horse-racing.p.rapidapi.com/racecards?date=" + year + "-" + month + "-" + day;
+
         Request request = new Request.Builder()
-                .url("https://horse-racing.p.rapidapi.com/racecards?date=2024-03-13")
+                .url(url)
                 .get()
                 .addHeader("X-RapidAPI-Key", "14592a19b7msha506b13166c4e3fp16bc30jsn1ca5f22e6ec7")
                 .addHeader("X-RapidAPI-Host", "horse-racing.p.rapidapi.com")
@@ -76,6 +86,7 @@ public class MainViewModel extends AndroidViewModel {
             }
         });
     }
+
 
     private boolean isDataSavedToday() {
         // Get the current date
