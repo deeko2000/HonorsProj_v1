@@ -5,10 +5,13 @@ import static android.content.ContentValues.TAG;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
+import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,6 +19,15 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -25,9 +37,20 @@ import okhttp3.Response;
 import android.content.SharedPreferences;
 import java.util.Calendar;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.Toast;
+
 
 public class MainViewModel extends AndroidViewModel {
     private MutableLiveData<String> apiResponseLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<String>> coursesLiveData = new MutableLiveData<>();
+
     private Context applicationContext;
 
     public MainViewModel(Application application) {
@@ -38,6 +61,11 @@ public class MainViewModel extends AndroidViewModel {
     public LiveData<String> getApiResponseLiveData() {
         return apiResponseLiveData;
     }
+
+    public LiveData<List<String>> getCoursesLiveData() {
+        return coursesLiveData;
+    }
+
 
     void makeApiCallAndSaveToFile() {
         // Check if data has already been saved today
@@ -144,13 +172,25 @@ public class MainViewModel extends AndroidViewModel {
     void printFileContents() {
         String fileContents = readFileContents();
         Log.d("MainViewModel", "File contents: " + fileContents);
-        System.out.println("File contents: " + fileContents);
-        // Assuming responseData is the string containing the API response data
-        int length = fileContents.length();
-        int startIndex = length * 2 / 3; // Start index for the last half of the data
-        String lastThird  = fileContents.substring(startIndex);
-        Log.d(TAG, "Last half of the data: " + lastThird);
 
+        try {
+            JSONArray jsonArray = new JSONArray(fileContents);
+            List<String> coursesList = new ArrayList<>();
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String course = jsonObject.getString("course");
+                if (!coursesList.contains(course)) {
+                    coursesList.add(course);
+                }
+            }
+
+            // Update LiveData with the new coursesList
+            coursesLiveData.postValue(coursesList);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            // Handle JSON parsing error
+        }
     }
 
     private String readFileContents() {

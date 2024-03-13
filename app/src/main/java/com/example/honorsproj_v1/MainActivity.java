@@ -18,6 +18,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import java.io.IOException;
+import java.util.List;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -42,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         autoCompleteTextView2 = findViewById(R.id.auto_complete_meetingView);
 
         adapterRaces = new ArrayAdapter<>(this,R.layout.list_item, races);
-        adapterMeetings = new ArrayAdapter<>(this,R.layout.list_item, meetings);
 
         autoCompleteTextView1.setAdapter(adapterRaces);
         autoCompleteTextView2.setAdapter(adapterMeetings);
@@ -54,6 +55,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(String responseData) {
                 // Update UI with responseData
+            }
+        });
+
+        // Observe LiveData
+        viewModel.getCoursesLiveData().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> coursesList) {
+                // Update UI with coursesList
+                // For example, update an ArrayAdapter for an AutoCompleteTextView
+                adapterMeetings = new ArrayAdapter<>(MainActivity.this, R.layout.list_item, coursesList);
+                autoCompleteTextView1.setAdapter(adapterMeetings);
             }
         });
 
