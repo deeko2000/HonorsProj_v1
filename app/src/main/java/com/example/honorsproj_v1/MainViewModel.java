@@ -48,6 +48,7 @@ import android.widget.Toast;
 
 
 public class MainViewModel extends AndroidViewModel {
+    //variables
     private MutableLiveData<String> apiResponseLiveData = new MutableLiveData<>();
     private MutableLiveData<List<String>> coursesLiveData = new MutableLiveData<>();
 
@@ -58,11 +59,11 @@ public class MainViewModel extends AndroidViewModel {
         this.applicationContext = application.getApplicationContext();
     }
 
-    public LiveData<String> getApiResponseLiveData() {
+    public LiveData<String> getApiResponseLiveData() {//get api response
         return apiResponseLiveData;
     }
 
-    public LiveData<List<String>> getCoursesLiveData() {
+    public LiveData<List<String>> getCoursesLiveData() {//gets course data
         return coursesLiveData;
     }
 
@@ -71,9 +72,12 @@ public class MainViewModel extends AndroidViewModel {
         // Check if data has already been saved today
         if (isDataSavedToday()) {
             Log.d("MainViewModel", "Data has already been saved today");
-            // If data has already been saved today, you might want to do something else or just return
+            // If data has already been saved today return and dont do following
             return;
         }
+
+        //clear the data that was previously saved
+        //clearSavedData();
 
         // If data has not been saved today, make the API call
         OkHttpClient client = new OkHttpClient();
@@ -81,13 +85,14 @@ public class MainViewModel extends AndroidViewModel {
         // Get the current date
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1; // January is 0, so add 1
+        int month = calendar.get(Calendar.MONTH) + 1; // January is 0 so add 1
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         // Build the URL with the current date
-        String url = "https://horse-racing.p.rapidapi.com/racecards?date=" + year + "-" + month + "-" + day;
+        String url = "https://horse-racing.p.rapidapi.com/racecards?date=" + year + "-" + month + "-" + day; //api call with todays date
+        String testurl = "https://horse-racing.p.rapidapi.com/racecards?date=2024-03-15"; //testing url
 
-        Request request = new Request.Builder()
+        Request request = new Request.Builder() //Api call using okhttp
                 .url(url)
                 .get()
                 .addHeader("X-RapidAPI-Key", "14592a19b7msha506b13166c4e3fp16bc30jsn1ca5f22e6ec7")
@@ -97,7 +102,7 @@ public class MainViewModel extends AndroidViewModel {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                // Handle failure
+                // Handle api call failure
                 e.printStackTrace();
             }
 
@@ -109,14 +114,15 @@ public class MainViewModel extends AndroidViewModel {
                     saveDataToFile(responseData); // Save data to file
                 } else {
                     // Handle error response
-                    // You might want to handle different HTTP error codes differently
+                    Log.d(TAG, "onResponse: Failure");
+                    
                 }
             }
         });
     }
 
 
-    private boolean isDataSavedToday() {
+    private boolean isDataSavedToday() { //Checks if data has been saved today
         // Get the current date
         Calendar calendar = Calendar.getInstance();
         int todayYear = calendar.get(Calendar.YEAR);
@@ -164,12 +170,13 @@ public class MainViewModel extends AndroidViewModel {
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
+            Log.d(TAG, "saveDataToFile: Failure");
             // Handle file write error
         }
     }
 
 
-    void printFileContents() {
+    void printFileContents() { //Prints file contents and extracts courses
         String fileContents = readFileContents();
         Log.d("MainViewModel", "File contents: " + fileContents);
 
@@ -189,11 +196,12 @@ public class MainViewModel extends AndroidViewModel {
             coursesLiveData.postValue(coursesList);
         } catch (JSONException e) {
             e.printStackTrace();
-            // Handle JSON parsing error
+            Log.d(TAG, "printFileContents: Failure");
+            // Handle error
         }
     }
 
-    private String readFileContents() {
+    private String readFileContents() { //Reads file contents and returns value for printFileContents
         StringBuilder stringBuilder = new StringBuilder();
         try {
             File file = new File(applicationContext.getFilesDir(), "response_data.txt");
@@ -216,7 +224,7 @@ public class MainViewModel extends AndroidViewModel {
         return stringBuilder.toString();
     }
 
-    void clearSavedData() {
+    void clearSavedData() { //clears saved data for testing
         SharedPreferences preferences = applicationContext.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("Year");

@@ -51,12 +51,12 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         // Observe LiveData
-        viewModel.getApiResponseLiveData().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String responseData) {
-                // Update UI with responseData
-            }
-        });
+//        viewModel.getApiResponseLiveData().observe(this, new Observer<String>() {
+//            @Override
+//            public void onChanged(String responseData) {
+//                // Update UI with responseData
+//            }
+//        });
 
         // Observe LiveData
         viewModel.getCoursesLiveData().observe(this, new Observer<List<String>>() {

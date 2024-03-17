@@ -23,7 +23,7 @@ public class HorseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_horse);
         // Set custom title
-        setTitle("Horses");
+        setTitle("Horses Page");
 
         LineChart lineChart = findViewById(R.id.lineChart);
         RadarChart radarChart = findViewById(R.id.radarChart);
