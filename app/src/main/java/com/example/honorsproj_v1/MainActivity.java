@@ -18,7 +18,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -27,6 +29,7 @@ import androidx.lifecycle.ViewModelProvider;
 public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel;
 
+    // String arrays for meetings and races
     String[] meetings = {"Meeting 1", "Meeting 2", "Meeting 3", "Meeting 4", "Meeting 5"};
     String[] races = {"Race 1", "Race 2", "Race 3", "Race 4", "Race 5"};
 
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayAdapter<String> adapterRaces;
     ArrayAdapter<String> adapterMeetings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,60 +47,61 @@ public class MainActivity extends AppCompatActivity {
         autoCompleteTextView1 = findViewById(R.id.auto_complete_raceView);
         autoCompleteTextView2 = findViewById(R.id.auto_complete_meetingView);
 
-        adapterRaces = new ArrayAdapter<>(this,R.layout.list_item, races);
+        // Initialize ArrayAdapter with races array
+        adapterRaces = new ArrayAdapter<>(this, R.layout.list_item, races);
 
+        // Set adapter for autoCompleteTextView1
         autoCompleteTextView1.setAdapter(adapterRaces);
-        autoCompleteTextView2.setAdapter(adapterMeetings);
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
-        // Observe LiveData
-//        viewModel.getApiResponseLiveData().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(String responseData) {
-//                // Update UI with responseData
-//            }
-//        });
-
-        // Observe LiveData
-        viewModel.getCoursesLiveData().observe(this, new Observer<List<String>>() {
+        // Observe changes in coursesLiveData
+        viewModel.getCoursesLiveData().observe(this, new Observer<Map<String, List<String>>>() {
             @Override
-            public void onChanged(List<String> coursesList) {
-                // Update UI with coursesList
+            public void onChanged(Map<String, List<String>> coursesMap) {
+                // Update UI with keys from the coursesMap
                 // For example, update an ArrayAdapter for an AutoCompleteTextView
-                adapterMeetings = new ArrayAdapter<>(MainActivity.this, R.layout.list_item, coursesList);
+                adapterMeetings = new ArrayAdapter<>(MainActivity.this, R.layout.list_item, new ArrayList<>(coursesMap.keySet()));
                 autoCompleteTextView1.setAdapter(adapterMeetings);
             }
         });
 
         // Make API call
-        //viewModel.clearSavedData();
         viewModel.makeApiCallAndSaveToFile();
         // Print file contents
         viewModel.printFileContents();
 
+        // Set item click listener for autoCompleteTextView1
         autoCompleteTextView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                String item = adapterView.getItemAtPosition(position).toString();
-                Toast.makeText(MainActivity.this, "items   " + item, Toast.LENGTH_SHORT).show();
+                String selectedCourse = adapterView.getItemAtPosition(position).toString();
+                // Get the list of dates for the selected course from coursesLiveData
+                List<String> times = viewModel.getCoursesLiveData().getValue().get(selectedCourse);
+                if (times != null) {
+                    // Create ArrayAdapter for dates and set it to autoCompleteTextView2
+                    ArrayAdapter<String> adapterTimes = new ArrayAdapter<>(MainActivity.this, R.layout.list_item, times);
+                    autoCompleteTextView2.setAdapter(adapterTimes);
+                }
             }
         });
+
+        // Set item click listener for autoCompleteTextView2
         autoCompleteTextView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 String item = adapterView.getItemAtPosition(position).toString();
-                Toast.makeText(MainActivity.this, "item   " + item, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Selected time: " + item, Toast.LENGTH_SHORT).show();
             }
         });
 
-        Button btn = (Button)findViewById(R.id.race_button);
+        // Button click listener to navigate to MeetingActivity
+        Button btn = findViewById(R.id.race_button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, MeetingActivity.class));
             }
         });
-
     }
 }

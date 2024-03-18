@@ -4,14 +4,20 @@ import static android.content.ContentValues.TAG;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
-import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,38 +25,16 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import android.content.SharedPreferences;
 import java.util.Calendar;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.Toast;
-
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MainViewModel extends AndroidViewModel {
     //variables
     private MutableLiveData<String> apiResponseLiveData = new MutableLiveData<>();
-    private MutableLiveData<List<String>> coursesLiveData = new MutableLiveData<>();
+    private MutableLiveData<Map<String, List<String>>> coursesLiveData = new MutableLiveData<>();
 
     private Context applicationContext;
 
@@ -63,7 +47,7 @@ public class MainViewModel extends AndroidViewModel {
         return apiResponseLiveData;
     }
 
-    public LiveData<List<String>> getCoursesLiveData() {//gets course data
+    public LiveData<Map<String, List<String>>> getCoursesLiveData() {//gets course data
         return coursesLiveData;
     }
 
@@ -75,9 +59,6 @@ public class MainViewModel extends AndroidViewModel {
             // If data has already been saved today return and dont do following
             return;
         }
-
-        //clear the data that was previously saved
-        //clearSavedData();
 
         // If data has not been saved today, make the API call
         OkHttpClient client = new OkHttpClient();
@@ -112,10 +93,10 @@ public class MainViewModel extends AndroidViewModel {
                     // Handle successful response
                     String responseData = response.body().string();
                     saveDataToFile(responseData); // Save data to file
+                    printFileContents(); // Update coursesLiveData after saving data
                 } else {
                     // Handle error response
                     Log.d(TAG, "onResponse: Failure");
-                    
                 }
             }
         });
@@ -182,24 +163,42 @@ public class MainViewModel extends AndroidViewModel {
 
         try {
             JSONArray jsonArray = new JSONArray(fileContents);
-            List<String> coursesList = new ArrayList<>();
+            Map<String, List<String>> coursesMap = new HashMap<>();
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String course = jsonObject.getString("course");
-                if (!coursesList.contains(course)) {
-                    coursesList.add(course);
+                String dateTime = jsonObject.getString("date");
+
+                // Extracting only the time part from the datetime string
+                String time = dateTime.substring(dateTime.indexOf(' ') + 1, dateTime.lastIndexOf(':'));
+                // Add course to map if it doesn't exist, otherwise add time to its list
+                if (!coursesMap.containsKey(course)) {
+                    List<String> timesList = new ArrayList<>();
+                    timesList.add(time);
+                    coursesMap.put(course, timesList);
+                } else {
+                    coursesMap.get(course).add(time);
                 }
             }
 
-            // Update LiveData with the new coursesList
-            coursesLiveData.postValue(coursesList);
+            // Log the contents of the HashMap
+            for (Map.Entry<String, List<String>> entry : coursesMap.entrySet()) {
+                String course = entry.getKey();
+                List<String> times = entry.getValue();
+                Log.d("MainViewModel", "Course: " + course + ", Times: " + times.toString());
+            }
+
+            // Update LiveData with the new coursesMap
+            coursesLiveData.postValue(coursesMap);
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d(TAG, "printFileContents: Failure");
             // Handle error
         }
     }
+
+
 
     private String readFileContents() { //Reads file contents and returns value for printFileContents
         StringBuilder stringBuilder = new StringBuilder();
