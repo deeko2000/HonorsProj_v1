@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
     String[] meetings = {"Meeting 1", "Meeting 2", "Meeting 3", "Meeting 4", "Meeting 5"};
     String[] races = {"Race 1", "Race 2", "Race 3", "Race 4", "Race 5"};
 
+    LinearLayout linLay1;
+    LinearLayout linLay2;
+
+
     AutoCompleteTextView autoCompleteTextView1;
     AutoCompleteTextView autoCompleteTextView2;
 
@@ -43,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        linLay1 = findViewById(R.id.linLay1);
+        linLay2 = findViewById(R.id.linLay2);
+
 
         autoCompleteTextView1 = findViewById(R.id.auto_complete_raceView);
         autoCompleteTextView2 = findViewById(R.id.auto_complete_meetingView);
@@ -59,12 +68,39 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getCoursesLiveData().observe(this, new Observer<Map<String, List<String>>>() {
             @Override
             public void onChanged(Map<String, List<String>> coursesMap) {
+                // Clear existing buttons
+                linLay1.removeAllViews();
+                linLay2.removeAllViews();
+
+                int i = 1;
+                for (String course : coursesMap.keySet()) {
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    );
+                    params.weight = 1;
+
+                    Button button = new Button(MainActivity.this);
+                    button.setText(course); // Set button text to course name
+                    button.setLayoutParams(params);
+                    button.setClickable(false);
+
+                    if (i <= 2) {
+                        linLay1.addView(button);
+                    } else {
+                        linLay2.addView(button);
+                    }
+
+                    i++;
+                }
+
                 // Update UI with keys from the coursesMap
                 // For example, update an ArrayAdapter for an AutoCompleteTextView
                 adapterMeetings = new ArrayAdapter<>(MainActivity.this, R.layout.list_item, new ArrayList<>(coursesMap.keySet()));
                 autoCompleteTextView1.setAdapter(adapterMeetings);
             }
         });
+
 
         // Make API call
         viewModel.makeApiCallAndSaveToFile();
