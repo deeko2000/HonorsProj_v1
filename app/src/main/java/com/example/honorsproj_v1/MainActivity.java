@@ -30,14 +30,12 @@ import androidx.lifecycle.ViewModelProvider;
 public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel;
 
-    // String arrays for meetings and races
-    String[] meetings = {"Meeting 1", "Meeting 2", "Meeting 3", "Meeting 4", "Meeting 5"};
-    String[] races = {"Race 1", "Race 2", "Race 3", "Race 4", "Race 5"};
+    // Test g arrays for meetings and races
+//    String[] meetings = {"Meeting 1", "Meeting 2", "Meeting 3", "Meeting 4", "Meeting 5"};
+//    String[] races = {"Race 1", "Race 2", "Race 3", "Race 4", "Race 5"};
 
     LinearLayout linLay1;
     LinearLayout linLay2;
-
-
     AutoCompleteTextView autoCompleteTextView1;
     AutoCompleteTextView autoCompleteTextView2;
 
@@ -55,12 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
         autoCompleteTextView1 = findViewById(R.id.auto_complete_raceView);
         autoCompleteTextView2 = findViewById(R.id.auto_complete_meetingView);
-
-        // Initialize ArrayAdapter with races array
-        adapterRaces = new ArrayAdapter<>(this, R.layout.list_item, races);
-
-        // Set adapter for autoCompleteTextView1
-        autoCompleteTextView1.setAdapter(adapterRaces);
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
