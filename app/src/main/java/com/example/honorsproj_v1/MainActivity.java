@@ -110,9 +110,16 @@ public class MainActivity extends AppCompatActivity {
                     // Create ArrayAdapter for dates and set it to autoCompleteTextView2
                     ArrayAdapter<String> adapterTimes = new ArrayAdapter<>(MainActivity.this, R.layout.list_item, times);
                     autoCompleteTextView2.setAdapter(adapterTimes);
+                } else {
+                    // If times is null, clear the adapter for autoCompleteTextView2
+                    autoCompleteTextView2.setAdapter(null);
                 }
+                // Clear the text in autoCompleteTextView2
+                autoCompleteTextView2.setText("");
             }
         });
+
+
 
         // Set item click listener for autoCompleteTextView2
         autoCompleteTextView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
