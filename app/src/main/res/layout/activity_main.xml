@@ -88,29 +88,11 @@
             <LinearLayout
                 android:id="@+id/linLay2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:id="@+id/button3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="20dp"
-                    android:layout_weight="1"
-                    android:clickable="false"
-                    android:text="Meeting Three" />
-
-                <Button
-                    android:id="@+id/button4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="20dp"
-                    android:layout_weight="1"
-                    android:clickable="false"
-                    android:text="Meeting Four" />
-
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!-- Buttons will be added dynamically here -->
             </LinearLayout>
+
 
 
         </LinearLayout>

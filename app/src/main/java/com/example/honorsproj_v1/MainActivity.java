@@ -30,16 +30,14 @@ import androidx.lifecycle.ViewModelProvider;
 public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel;
 
-    // Test g arrays for meetings and races
-//    String[] meetings = {"Meeting 1", "Meeting 2", "Meeting 3", "Meeting 4", "Meeting 5"};
-//    String[] races = {"Race 1", "Race 2", "Race 3", "Race 4", "Race 5"};
+        //Testing arrays for meetings and races
+        String[] meetings = {"Meeting 1", "Meeting 2", "Meeting 3", "Meeting 4", "Meeting 5"};
+        String[] races = {"Race 1", "Race 2", "Race 3", "Race 4", "Race 5"};
 
     LinearLayout linLay1;
     LinearLayout linLay2;
     AutoCompleteTextView autoCompleteTextView1;
     AutoCompleteTextView autoCompleteTextView2;
-
-    ArrayAdapter<String> adapterRaces;
     ArrayAdapter<String> adapterMeetings;
 
     @Override
@@ -57,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         // Observe changes in coursesLiveData
+
+
         viewModel.getCoursesLiveData().observe(this, new Observer<Map<String, List<String>>>() {
             @Override
             public void onChanged(Map<String, List<String>> coursesMap) {
@@ -64,10 +64,13 @@ public class MainActivity extends AppCompatActivity {
                 linLay1.removeAllViews();
                 linLay2.removeAllViews();
 
-                int i = 1;
+                // Create a counter for tracking button addition
+                int buttonCounter = 0;
+                LinearLayout currentLayout = null;
+
                 for (String course : coursesMap.keySet()) {
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            0,
                             LinearLayout.LayoutParams.WRAP_CONTENT
                     );
                     params.weight = 1;
@@ -77,13 +80,18 @@ public class MainActivity extends AppCompatActivity {
                     button.setLayoutParams(params);
                     button.setClickable(false);
 
-                    if (i <= 2) {
-                        linLay1.addView(button);
-                    } else {
-                        linLay2.addView(button);
+                    // Check if buttonCounter is odd
+                    if (buttonCounter % 2 == 0) {
+                        // Create a new LinearLayout for every two buttons
+                        currentLayout = new LinearLayout(MainActivity.this);
+                        currentLayout.setOrientation(LinearLayout.HORIZONTAL);
+                        linLay2.addView(currentLayout); // Add new LinearLayout to linLay2
                     }
 
-                    i++;
+                    // Add button to current layout
+                    currentLayout.addView(button);
+
+                    buttonCounter++;
                 }
 
                 // Update UI with keys from the coursesMap
@@ -92,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 autoCompleteTextView1.setAdapter(adapterMeetings);
             }
         });
+
+
 
 
         // Make API call
