@@ -102,8 +102,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
         // Make API call
         viewModel.makeApiCallAndSaveToFile();
         // Print file contents
@@ -145,8 +143,16 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MeetingActivity.class));
+                String selectedCourse = autoCompleteTextView1.getText().toString();
+                List<String> timesList = viewModel.getCoursesLiveData().getValue().get(selectedCourse);
+
+                Intent intent = new Intent(MainActivity.this, MeetingActivity.class);
+                intent.putExtra("selected_course", selectedCourse);
+                intent.putStringArrayListExtra("times_list", new ArrayList<>(timesList));
+                startActivity(intent);
             }
         });
+
+
     }
 }
