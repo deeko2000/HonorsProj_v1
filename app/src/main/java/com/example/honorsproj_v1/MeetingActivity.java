@@ -61,6 +61,20 @@ public class MeetingActivity extends AppCompatActivity {
             updateListView(selectedTime);
         });
 
+        // Set click listener for ListView items
+        listView.setOnItemClickListener((adapterView, view, position, id) -> {
+            // Get the clicked item
+            String selectedHorse = (String) adapterView.getItemAtPosition(position);
+
+            // Create a new Intent
+            Intent horseDetailsIntent = new Intent(MeetingActivity.this, HorseActivity.class);
+            // Pass any necessary data to the intent
+            horseDetailsIntent.putExtra("selected_horse", selectedHorse);
+
+            // Start the activity with the intent
+            startActivity(horseDetailsIntent);
+        });
+
         // Make API call and save data to file
         viewModel.makeApiCallAndSaveToFile();
         viewModel.printFileContents();
@@ -86,5 +100,7 @@ public class MeetingActivity extends AppCompatActivity {
             adapterListView.addAll(horses);
         }
     }
+
+
 }
 
