@@ -139,17 +139,26 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Button click listener to navigate to MeetingActivity
+
+        // Button click listener to navigate to MeetingActivity
         Button btn = findViewById(R.id.race_button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String selectedCourse = autoCompleteTextView1.getText().toString();
+                String selectedTime = autoCompleteTextView2.getText().toString(); // Get the selected time
                 List<String> timesList = viewModel.getCoursesLiveData().getValue().get(selectedCourse);
 
-                Intent intent = new Intent(MainActivity.this, MeetingActivity.class);
-                intent.putExtra("selected_course", selectedCourse);
-                intent.putStringArrayListExtra("times_list", new ArrayList<>(timesList));
-                startActivity(intent);
+                // Check if both course and time are selected
+                if (!selectedCourse.isEmpty() && !selectedTime.isEmpty()) {
+                    Intent intent = new Intent(MainActivity.this, MeetingActivity.class);
+                    intent.putExtra("selected_course", selectedCourse);
+                    intent.putExtra("selected_time", selectedTime); // Pass the selected time to the intent
+                    intent.putStringArrayListExtra("times_list", new ArrayList<>(timesList));
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MainActivity.this, "Please select both course and time", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

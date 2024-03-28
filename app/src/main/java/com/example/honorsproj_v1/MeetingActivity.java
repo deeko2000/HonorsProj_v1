@@ -25,8 +25,7 @@ public class MeetingActivity extends AppCompatActivity {
     String[] horses = {"Horse 1", "Horse 2", "Horse 3", "Horse 4", "Horse 5", "Horse 6", "Horse 7", "Horse 8", "Horse 9", "Horse 10", "Horse 11"};
 
     AutoCompleteTextView autoCompleteRaceView;
-
-
+    String selectedTime = null;
     ArrayAdapter<String> adapterRaces;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +36,7 @@ public class MeetingActivity extends AppCompatActivity {
         ArrayList<String> timesList = null;
         if (intent != null) {
             String selectedCourse = intent.getStringExtra("selected_course");
+            selectedTime = intent.getStringExtra("selected_time");
             Button myButton = findViewById(R.id.meetingBtn); // Replace R.id.my_button with the ID of your button
             myButton.setText(selectedCourse);
             timesList = intent.getStringArrayListExtra("times_list");
@@ -48,7 +48,7 @@ public class MeetingActivity extends AppCompatActivity {
 
 
         autoCompleteRaceView = findViewById(R.id.auto_complete_raceView);
-
+        autoCompleteRaceView.setText(selectedTime);
 
         autoCompleteRaceView.setAdapter(adapterRaces);
 
@@ -57,13 +57,12 @@ public class MeetingActivity extends AppCompatActivity {
         adapterRaces = new ArrayAdapter<>(this, R.layout.list_item, timesList);
 
         // Find AutoCompleteTextView by ID
-        autoCompleteRaceView = findViewById(R.id.auto_complete_raceView);
+
 
 
         // Create ArrayAdapter with the timesList
         if (timesList != null) {
             adapterRaces = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, timesList);
-
             // Set the adapter to the AutoCompleteTextView
             autoCompleteRaceView.setAdapter(adapterRaces);
         }
