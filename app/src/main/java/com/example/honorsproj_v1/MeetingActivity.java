@@ -64,16 +64,19 @@ public class MeetingActivity extends AppCompatActivity {
         // Set click listener for ListView items
         listView.setOnItemClickListener((adapterView, view, position, id) -> {
             // Get the clicked item
-            String selectedHorse = (String) adapterView.getItemAtPosition(position);
+            String selectedHorseWithNumber = (String) adapterView.getItemAtPosition(position);
+            // Extract only the horse's name from the selected item
+            String selectedHorse = selectedHorseWithNumber.replaceAll("^\\d+\\s+", "");
 
             // Create a new Intent
             Intent horseDetailsIntent = new Intent(MeetingActivity.this, HorseActivity.class);
-            // Pass any necessary data to the intent
+            // Pass the horse's name to the intent
             horseDetailsIntent.putExtra("selected_horse", selectedHorse);
 
             // Start the activity with the intent
             startActivity(horseDetailsIntent);
         });
+
 
         // Make API call and save data to file
         viewModel.makeApiCallAndSaveToFile();

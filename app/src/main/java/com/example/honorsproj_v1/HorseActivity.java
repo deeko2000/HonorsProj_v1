@@ -1,8 +1,11 @@
 package com.example.honorsproj_v1;
 
-import android.graphics.Color;
+import static android.content.ContentValues.TAG;
+
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.RadarChart;
@@ -28,6 +31,10 @@ public class HorseActivity extends AppCompatActivity {
         LineChart lineChart = findViewById(R.id.lineChart);
         RadarChart radarChart = findViewById(R.id.radarChart);
 
+        // Retrieve string from intent
+        String horseName = getIntent().getStringExtra("selected_horse");
+        Log.d("HorseActivity", "Horse sent is " + horseName);
+
         // Populate LineChart with sample data
         ArrayList<Entry> entries = new ArrayList<>();
         entries.add(new Entry(0, 5));
@@ -35,7 +42,7 @@ public class HorseActivity extends AppCompatActivity {
         entries.add(new Entry(2, 15));
         entries.add(new Entry(3, 20));
         entries.add(new Entry(4, 25));
-        LineDataSet dataSet = new LineDataSet(entries, "Line Chart Data");
+        LineDataSet dataSet = new LineDataSet(entries, horseName + " Line Chart Data");
         LineData lineData = new LineData(dataSet);
         lineChart.setData(lineData);
         lineChart.invalidate();
@@ -47,7 +54,7 @@ public class HorseActivity extends AppCompatActivity {
             float value = random.nextFloat() * 100; // Random value between 0 and 100
             radarEntries.add(new RadarEntry(value));
         }
-        RadarDataSet radarDataSet = new RadarDataSet(radarEntries, "Radar Chart Data");
+        RadarDataSet radarDataSet = new RadarDataSet(radarEntries, horseName + " Radar Chart Data");
         radarDataSet.setColor(Color.BLUE);
         radarDataSet.setFillColor(Color.BLUE);
         radarDataSet.setDrawFilled(true);
