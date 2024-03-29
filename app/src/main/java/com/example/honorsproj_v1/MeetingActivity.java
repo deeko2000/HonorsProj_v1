@@ -87,7 +87,6 @@ public class MeetingActivity extends AppCompatActivity {
         });
     }
 
-    // Method to update ListView based on the selected time
     private void updateListView(String selectedTime) {
         // Clear the ListView adapter
         adapterListView.clear();
@@ -96,10 +95,16 @@ public class MeetingActivity extends AppCompatActivity {
         if (horseMap != null && horseMap.containsKey(selectedTime)) {
             // Get the list of horses associated with the selected time
             List<String> horses = horseMap.get(selectedTime);
-            // Add each horse to the ListView adapter
-            adapterListView.addAll(horses);
+
+            // Add each horse to the ListView adapter with numbers starting from 1
+            int count = 1;
+            for (String horse : horses) {
+                adapterListView.add(count + "           " + horse);
+                count++;
+            }
         }
     }
+
 
 
 }
