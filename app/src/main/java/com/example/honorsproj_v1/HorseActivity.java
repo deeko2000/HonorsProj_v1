@@ -1,13 +1,15 @@
 package com.example.honorsproj_v1;
 
-import android.content.Intent;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -26,118 +28,93 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 
 public class HorseActivity extends AppCompatActivity {
 
 
+    String horseName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_horse);
+        setContentView(R.layout.activity_horse); // Start with horse details layout
         // Set custom title
         setTitle("Horses Page");
 
         // Retrieve string (horse name) from intent
-        String horseName = getIntent().getStringExtra("selected_horse");
+        horseName = getIntent().getStringExtra("selected_horse");
         Log.d("HorseActivity", "Horse sent is " + horseName);
 
         // Setup spinner with dropdown options
         Spinner spinner = findViewById(R.id.spinner);
-        List<String> options = new ArrayList<>();
-        options.add("Horse Details");
-        options.add("Horse Comparison");
-        options.add("Race Comparison");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, options);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-        // Set up listener for spinner item selection
+        // Set up listener to retrieve selected item
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // Handle item selection
-                switch (position) {
-                    case 0: // Horse Details
-                        // No action needed as already on HorseActivity
+                String selectedOption = (String) parentView.getItemAtPosition(position);
+                Log.d("HorseActivity", "SELECTION IS " + selectedOption);
+
+                // Get the context from the spinner's parent
+                Context context = parentView.getContext();
+
+                // Inflate selected layout into the container
+                LayoutInflater inflater = LayoutInflater.from(context);
+                View inflatedLayout = null;
+                switch(selectedOption) {
+                    case "Horse Details":
+                        inflatedLayout = inflater.inflate(R.layout.horse_details_layout, null); // Pass null as the parent
+                        horseDetailInformation(inflatedLayout); // Pass inflatedLayout to the method
                         break;
-                    case 1: // Horse Comparison
-                        // Start HorseComparisonActivity
-                        Intent horseComparisonIntent = new Intent(HorseActivity.this, HorseComparisonActivity.class);
-                        startActivity(horseComparisonIntent);
+                    case "Horse Comparison":
+                        inflatedLayout = inflater.inflate(R.layout.horse_comparison_layout, (ViewGroup) parentView.getParent(), false);
                         break;
-                    case 2: // Race Comparison
-                        // Implement as needed
+                    case "Race Comparison":
+                        inflatedLayout = inflater.inflate(R.layout.race_comparison_layout, (ViewGroup) parentView.getParent(), false);
                         break;
+                    default:
+                        // Handle unknown selection
+                        return;
                 }
+
+                // Clear previous views from the container
+                ((FrameLayout) findViewById(R.id.container)).removeAllViews();
+
+                // Add the inflated layout to the container
+                ((FrameLayout) findViewById(R.id.container)).addView(inflatedLayout);
             }
+
+
+
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // Do nothing
+                // Handle case where nothing is selected
             }
         });
 
-        LineChart lineChart = findViewById(R.id.lineChart);
 
-        // Read the contents of the file "response_data.txt"
-        StringBuilder jsonData = new StringBuilder();
-        try {
-            FileInputStream fis = openFileInput("response_data.json");
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-            String line;
-            while ((line = br.readLine()) != null) {
-                jsonData.append(line);
-            }
-            br.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        // Parse JSON data and fill TextViews with matching fields
-        try {
-            JSONObject jsonObject = new JSONObject(jsonData.toString());
-            JSONArray racecardsArray = jsonObject.getJSONArray("racecards");
-            for (int i = 0; i < racecardsArray.length(); i++) {
-                JSONObject raceObject = racecardsArray.getJSONObject(i);
-                JSONArray runnersArray = raceObject.getJSONArray("runners");
-                for (int j = 0; j < runnersArray.length(); j++) {
-                    JSONObject horseObject = runnersArray.getJSONObject(j);
-                    String name = horseObject.getString("horse");
-                    if (name.equals(horseName)) {
-                        // Fill TextViews with matching fields
-                        fillTextViews(horseObject);
-                        // Plot the form on the line chart
-                        plotFormOnLineChart(horseObject.getString("form"), lineChart, horseName);
-                        break;
-                    }
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
-
-    private void fillTextViews(JSONObject horseObject) {
+    private void fillTextViews(JSONObject horseObject, View inflatedLayout) {
         try {
             // Fill TextViews with matching fields
-            ((TextView) findViewById(R.id.horseName)).setText("Horse: " + horseObject.getString("horse"));
-            ((TextView) findViewById(R.id.horseAge)).setText("Age: " + horseObject.getString("age"));
-            ((TextView) findViewById(R.id.horseSex)).setText("Sex: " + horseObject.getString("sex"));
-            ((TextView) findViewById(R.id.horseColour)).setText("Colour: " + horseObject.getString("colour"));
-            ((TextView) findViewById(R.id.horseRegion)).setText("Region: " + horseObject.getString("region"));
-            ((TextView) findViewById(R.id.horseTrainer)).setText("Trainer: " + horseObject.getString("trainer"));
-            ((TextView) findViewById(R.id.horseOwner)).setText("Owner(s): " + horseObject.getString("owner"));
-            ((TextView) findViewById(R.id.horseNumber)).setText("Number: " + horseObject.getString("number"));
-            ((TextView) findViewById(R.id.horseJockey)).setText("Jockey: " + horseObject.getString("jockey"));
-            ((TextView) findViewById(R.id.horseLastRun)).setText("Last Run: " + horseObject.getString("last_run")  + " days ago");
-            //((TextView) findViewById(R.id.horseForm)).setText("Form: " + horseObject.getString("form"));
+            ((TextView) inflatedLayout.findViewById(R.id.horseName)).setText("Horse: " + horseObject.getString("horse"));
+            ((TextView) inflatedLayout.findViewById(R.id.horseAge)).setText("Age: " + horseObject.getString("age"));
+            ((TextView) inflatedLayout.findViewById(R.id.horseSex)).setText("Sex: " + horseObject.getString("sex"));
+            ((TextView) inflatedLayout.findViewById(R.id.horseColour)).setText("Colour: " + horseObject.getString("colour"));
+            ((TextView) inflatedLayout.findViewById(R.id.horseRegion)).setText("Region: " + horseObject.getString("region"));
+            ((TextView) inflatedLayout.findViewById(R.id.horseTrainer)).setText("Trainer: " + horseObject.getString("trainer"));
+            ((TextView) inflatedLayout.findViewById(R.id.horseOwner)).setText("Owner(s): " + horseObject.getString("owner"));
+            ((TextView) inflatedLayout.findViewById(R.id.horseNumber)).setText("Number: " + horseObject.getString("number"));
+            ((TextView) inflatedLayout.findViewById(R.id.horseJockey)).setText("Jockey: " + horseObject.getString("jockey"));
+            ((TextView) inflatedLayout.findViewById(R.id.horseLastRun)).setText("Last Run: " + horseObject.getString("last_run")  + " days ago");
+            //((TextView) inflatedLayout.findViewById(R.id.horseForm)).setText("Form: " + horseObject.getString("form"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
+
 
     private void plotFormOnLineChart(String form, LineChart lineChart, String horseName) {
         // Replace '0' with '9' in the form variable
@@ -202,5 +179,57 @@ public class HorseActivity extends AppCompatActivity {
 
         // Customize chart appearance
         lineChart.invalidate(); // Refresh chart
+
+
+
     }
+
+
+
+
+
+    private void horseDetailInformation(View inflatedLayout) {
+
+        LineChart lineChart = inflatedLayout.findViewById(R.id.lineChart);
+
+        // Read the contents of the file "response_data.txt"
+        StringBuilder jsonData = new StringBuilder();
+        try {
+            FileInputStream fis = openFileInput("response_data.json");
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                jsonData.append(line);
+            }
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Parse JSON data and fill TextViews with matching fields
+        try {
+            JSONObject jsonObject = new JSONObject(jsonData.toString());
+            JSONArray racecardsArray = jsonObject.getJSONArray("racecards");
+            for (int i = 0; i < racecardsArray.length(); i++) {
+                JSONObject raceObject = racecardsArray.getJSONObject(i);
+                JSONArray runnersArray = raceObject.getJSONArray("runners");
+                for (int j = 0; j < runnersArray.length(); j++) {
+                    JSONObject horseObject = runnersArray.getJSONObject(j);
+                    String name = horseObject.getString("horse");
+                    if (name.equals(horseName)) {
+                        // Fill TextViews with matching fields
+                        fillTextViews(horseObject, inflatedLayout);
+                        // Plot the form on the line chart
+                        plotFormOnLineChart(horseObject.getString("form"), lineChart, horseName);
+                        break;
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+}
 }

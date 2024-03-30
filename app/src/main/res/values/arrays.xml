@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_options">
+        <item>Horse Details</item>
+        <item>Horse Comparison</item>
+        <item>Race Comparison</item>
+    </string-array>
+</resources>
