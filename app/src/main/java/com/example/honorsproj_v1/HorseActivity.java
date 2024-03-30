@@ -1,9 +1,14 @@
 package com.example.honorsproj_v1;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +26,10 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 public class HorseActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +41,42 @@ public class HorseActivity extends AppCompatActivity {
         // Retrieve string (horse name) from intent
         String horseName = getIntent().getStringExtra("selected_horse");
         Log.d("HorseActivity", "Horse sent is " + horseName);
+
+        // Setup spinner with dropdown options
+        Spinner spinner = findViewById(R.id.spinner);
+        List<String> options = new ArrayList<>();
+        options.add("Horse Details");
+        options.add("Horse Comparison");
+        options.add("Race Comparison");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, options);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        // Set up listener for spinner item selection
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Handle item selection
+                switch (position) {
+                    case 0: // Horse Details
+                        // No action needed as already on HorseActivity
+                        break;
+                    case 1: // Horse Comparison
+                        // Start HorseComparisonActivity
+                        Intent horseComparisonIntent = new Intent(HorseActivity.this, HorseComparisonActivity.class);
+                        startActivity(horseComparisonIntent);
+                        break;
+                    case 2: // Race Comparison
+                        // Implement as needed
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Do nothing
+            }
+        });
 
         LineChart lineChart = findViewById(R.id.lineChart);
 
@@ -76,6 +119,7 @@ public class HorseActivity extends AppCompatActivity {
         }
     }
 
+
     private void fillTextViews(JSONObject horseObject) {
         try {
             // Fill TextViews with matching fields
@@ -88,7 +132,7 @@ public class HorseActivity extends AppCompatActivity {
             ((TextView) findViewById(R.id.horseOwner)).setText("Owner(s): " + horseObject.getString("owner"));
             ((TextView) findViewById(R.id.horseNumber)).setText("Number: " + horseObject.getString("number"));
             ((TextView) findViewById(R.id.horseJockey)).setText("Jockey: " + horseObject.getString("jockey"));
-            ((TextView) findViewById(R.id.horseLastRun)).setText("Last Run: " + horseObject.getString("last_run")  + " days");
+            ((TextView) findViewById(R.id.horseLastRun)).setText("Last Run: " + horseObject.getString("last_run")  + " days ago");
             //((TextView) findViewById(R.id.horseForm)).setText("Form: " + horseObject.getString("form"));
         } catch (JSONException e) {
             e.printStackTrace();
