@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,11 +31,11 @@ public class HorseActivity extends AppCompatActivity {
         // Set custom title
         setTitle("Horses Page");
 
-        LineChart lineChart = findViewById(R.id.lineChart);
-
         // Retrieve string (horse name) from intent
         String horseName = getIntent().getStringExtra("selected_horse");
         Log.d("HorseActivity", "Horse sent is " + horseName);
+
+        LineChart lineChart = findViewById(R.id.lineChart);
 
         // Read the contents of the file "response_data.txt"
         StringBuilder jsonData = new StringBuilder();
@@ -51,7 +52,7 @@ public class HorseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // Parse JSON data and search for the horse name
+        // Parse JSON data and fill TextViews with matching fields
         try {
             JSONObject jsonObject = new JSONObject(jsonData.toString());
             JSONArray racecardsArray = jsonObject.getJSONArray("racecards");
@@ -62,15 +63,33 @@ public class HorseActivity extends AppCompatActivity {
                     JSONObject horseObject = runnersArray.getJSONObject(j);
                     String name = horseObject.getString("horse");
                     if (name.equals(horseName)) {
-                        // Horse found, extract its form field
-                        String form = horseObject.getString("form");
-                        Log.d("HorseActivity", "Form of " + horseName + ": " + form);
+                        // Fill TextViews with matching fields
+                        fillTextViews(horseObject);
                         // Plot the form on the line chart
-                        plotFormOnLineChart(form, lineChart, horseName);
+                        plotFormOnLineChart(horseObject.getString("form"), lineChart, horseName);
                         break;
                     }
                 }
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fillTextViews(JSONObject horseObject) {
+        try {
+            // Fill TextViews with matching fields
+            ((TextView) findViewById(R.id.horseName)).setText("Horse: " + horseObject.getString("horse"));
+            ((TextView) findViewById(R.id.horseAge)).setText("Age: " + horseObject.getString("age"));
+            ((TextView) findViewById(R.id.horseSex)).setText("Sex: " + horseObject.getString("sex"));
+            ((TextView) findViewById(R.id.horseColour)).setText("Colour: " + horseObject.getString("colour"));
+            ((TextView) findViewById(R.id.horseRegion)).setText("Region: " + horseObject.getString("region"));
+            ((TextView) findViewById(R.id.horseTrainer)).setText("Trainer: " + horseObject.getString("trainer"));
+            ((TextView) findViewById(R.id.horseOwner)).setText("Owner(s): " + horseObject.getString("owner"));
+            ((TextView) findViewById(R.id.horseNumber)).setText("Number: " + horseObject.getString("number"));
+            ((TextView) findViewById(R.id.horseJockey)).setText("Jockey: " + horseObject.getString("jockey"));
+            ((TextView) findViewById(R.id.horseLastRun)).setText("Last Run: " + horseObject.getString("last_run")  + " days");
+            //((TextView) findViewById(R.id.horseForm)).setText("Form: " + horseObject.getString("form"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -139,9 +158,5 @@ public class HorseActivity extends AppCompatActivity {
 
         // Customize chart appearance
         lineChart.invalidate(); // Refresh chart
-
     }
-
-
-
 }
