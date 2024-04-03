@@ -27,6 +27,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
+
+                <com.github.mikephil.charting.charts.ScatterChart
+                    android:id="@+id/scatter_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp" />
             </RelativeLayout>
 
             <!-- FrameLayout with Black Border -->

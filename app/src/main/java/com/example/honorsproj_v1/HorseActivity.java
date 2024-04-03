@@ -16,9 +16,16 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.ScatterChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.ScatterData;
+import com.github.mikephil.charting.data.ScatterDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +38,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class HorseActivity extends AppCompatActivity {
 
@@ -138,32 +148,80 @@ public class HorseActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(jsonData.toString());
             JSONArray racecardsArray = jsonObject.getJSONArray("racecards");
 
-            // Iterate through racecards to find the race with matching off_time
+            // Find the race with matching off_time
+            JSONObject targetRace = null;
             for (int i = 0; i < racecardsArray.length(); i++) {
                 JSONObject raceObject = racecardsArray.getJSONObject(i);
                 String offTime = raceObject.getString("off_time");
-
-                // If off_time matches the time variable, fill the layout with race details
                 if (offTime.equals(time)) {
-                    // Fill TextViews with race details
-                    ((TextView) inflatedLayout.findViewById(R.id.courseName)).setText("Course: " + raceObject.getString("course"));
-                    ((TextView) inflatedLayout.findViewById(R.id.raceName)).setText("Race Name: " + raceObject.getString("race_name"));
-                    ((TextView) inflatedLayout.findViewById(R.id.distance)).setText("Distance: " + raceObject.getString("distance_f"));
-                    ((TextView) inflatedLayout.findViewById(R.id.raceClass)).setText("Class: " + raceObject.getString("race_class"));
-                    ((TextView) inflatedLayout.findViewById(R.id.type)).setText("Type: " + raceObject.getString("type"));
-                    ((TextView) inflatedLayout.findViewById(R.id.age)).setText("Age Band: " + raceObject.getString("age_band"));
-                    ((TextView) inflatedLayout.findViewById(R.id.prize)).setText("Prize: " + raceObject.getString("prize"));
-                    ((TextView) inflatedLayout.findViewById(R.id.fieldSize)).setText("Field-Size: " + raceObject.getString("field_size"));
-                    ((TextView) inflatedLayout.findViewById(R.id.going)).setText("Going: " + raceObject.getString("going"));
-                    ((TextView) inflatedLayout.findViewById(R.id.surface)).setText("Surface: " + raceObject.getString("surface"));
-                    break; // Stop iterating once the matching race is found
+                    targetRace = raceObject;
+                    break;
                 }
+            }
+
+            if (targetRace != null) {
+                // Fill layout with race details
+                ((TextView) inflatedLayout.findViewById(R.id.courseName)).setText("Course: " + targetRace.getString("course"));
+                ((TextView) inflatedLayout.findViewById(R.id.raceName)).setText("Race Name: " + targetRace.getString("race_name"));
+                ((TextView) inflatedLayout.findViewById(R.id.distance)).setText("Distance: " + targetRace.getString("distance_f"));
+                ((TextView) inflatedLayout.findViewById(R.id.raceClass)).setText("Class: " + targetRace.getString("race_class"));
+                ((TextView) inflatedLayout.findViewById(R.id.type)).setText("Type: " + targetRace.getString("type"));
+                ((TextView) inflatedLayout.findViewById(R.id.age)).setText("Age Band: " + targetRace.getString("age_band"));
+                ((TextView) inflatedLayout.findViewById(R.id.prize)).setText("Prize: " + targetRace.getString("prize"));
+                ((TextView) inflatedLayout.findViewById(R.id.fieldSize)).setText("Field-Size: " + targetRace.getString("field_size"));
+                ((TextView) inflatedLayout.findViewById(R.id.going)).setText("Going: " + targetRace.getString("going"));
+                ((TextView) inflatedLayout.findViewById(R.id.surface)).setText("Surface: " + targetRace.getString("surface"));
+
+                // Calculate average form of each horse in the race
+                JSONArray runnersArray = targetRace.getJSONArray("runners");
+                Map<String, List<Integer>> horseForms = new HashMap<>();
+                for (int i = 0; i < runnersArray.length(); i++) {
+                    JSONObject horseObject = runnersArray.getJSONObject(i);
+                    String horseName = horseObject.getString("horse");
+                    String form = horseObject.getString("form");
+                    List<Integer> formList = parseForm(form);
+                    horseForms.put(horseName, formList);
+                }
+
+                // Display average form of each horse
+                for (Map.Entry<String, List<Integer>> entry : horseForms.entrySet()) {
+                    String horseName = entry.getKey();
+                    List<Integer> formList = entry.getValue();
+                    double averageForm = calculateAverageForm(formList);
+                    Log.d("HorseActivity", "Horse: " + horseName + ", Average Form: " + averageForm);
+                }
+            } else {
+                Log.d("HorseActivity", "No race found at the specified time.");
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
+    // Method to parse form string into a list of integers
+    private List<Integer> parseForm(String form) {
+        List<Integer> formList = new ArrayList<>();
+        for (int i = 0; i < form.length(); i++) {
+            char result = form.charAt(i);
+            if (Character.isDigit(result)) {
+                int value = Character.getNumericValue(result);
+                formList.add(value);
+            }
+        }
+        return formList;
+    }
+
+    // Method to calculate average form of a horse
+    private double calculateAverageForm(List<Integer> formList) {
+        if (formList.isEmpty()) {
+            return 0;
+        }
+        int sum = 0;
+        for (int form : formList) {
+            sum += form;
+        }
+        return (double) sum / formList.size();
+    }
 
 
 
@@ -230,8 +288,6 @@ public class HorseActivity extends AppCompatActivity {
 
         // Customize chart appearance
         lineChart.invalidate(); // Refresh chart
-
-
 
     }
 
