@@ -68,10 +68,12 @@ public class MeetingActivity extends AppCompatActivity {
             // Extract only the horse's name from the selected item
             String selectedHorse = selectedHorseWithNumber.replaceAll("^\\d+\\s+", "");
 
+
             // Create a new Intent
             Intent horseDetailsIntent = new Intent(MeetingActivity.this, HorseActivity.class);
             // Pass the horse's name to the intent
             horseDetailsIntent.putExtra("selected_horse", selectedHorse);
+            horseDetailsIntent.putExtra("selected_race", selectedTime);
 
             // Start the activity with the intent
             startActivity(horseDetailsIntent);
