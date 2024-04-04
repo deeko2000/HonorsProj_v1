@@ -212,10 +212,20 @@ public class HorseActivity extends AppCompatActivity {
             if (Character.isDigit(result)) {
                 int value = Character.getNumericValue(result);
                 formList.add(value);
+            } else {
+                // Check if the character represents poor performance
+                if (result == 'P' || result == 'U') {
+                    formList.add(9);
+                }
+                // Check if the character represents non-participation or unknown performance
+                else if (result == 'F' || result == 'R' || result == 'B' || result == 'D') {
+                    formList.add(9);
+                }
             }
         }
         return formList;
     }
+
 
     // Method to calculate average form of a horse
     private double calculateAverageForm(List<Integer> formList) {
@@ -309,14 +319,17 @@ public class HorseActivity extends AppCompatActivity {
             // Calculate the average form value
             double averageForm = calculateAverageForm(formList);
 
+            // Concatenate horse's name and form into a single string
+            String data = horseName + ": " + formList.toString();
+
             // Add an entry for each horse with its average form value and horse name as data
             Entry entry = new Entry(entries.size(), (float) averageForm);
-            entry.setData(horseName);
+            entry.setData(data);
             entries.add(entry);
         }
 
         // Create a dataset from the entries
-        ScatterDataSet dataSet = new ScatterDataSet(entries, "Average Form Values");
+        ScatterDataSet dataSet = new ScatterDataSet(entries, "Average placing based on form");
         // Set properties for the dataset (e.g., color)
         dataSet.setColor(Color.BLUE);
         dataSet.setScatterShape(ScatterChart.ScatterShape.CIRCLE); // Set scatter shape to circle
@@ -330,8 +343,8 @@ public class HorseActivity extends AppCompatActivity {
         scatterChart.getDescription().setEnabled(false); // Hide description
         scatterChart.getXAxis().setEnabled(false); // Hide x-axis
         scatterChart.getAxisLeft().setGranularity(1f); // Set granularity of y-axis
-        scatterChart.getAxisLeft().setAxisMinimum(1f); // Set minimum value for y-axis
-        scatterChart.getAxisLeft().setAxisMaximum(12f); // Set maximum value for y-axis
+        scatterChart.getAxisLeft().setAxisMinimum(0f); // Set minimum value for y-axis
+        scatterChart.getAxisLeft().setAxisMaximum(20f); // Set maximum value for y-axis
         scatterChart.getAxisRight().setEnabled(false); // Hide right y-axis
         scatterChart.getAxisLeft().setInverted(true); // Invert y-axis
 
@@ -351,6 +364,7 @@ public class HorseActivity extends AppCompatActivity {
         // Customize chart appearance
         scatterChart.invalidate(); // Refresh chart
     }
+
 
 
 

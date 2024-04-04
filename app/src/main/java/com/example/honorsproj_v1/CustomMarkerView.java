@@ -21,8 +21,12 @@ public class CustomMarkerView extends MarkerView {
     // This method will be called every time the MarkerView is redrawn
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
-        // Set the text of TextView to the value of the data point
-        tvContent.setText("Horse: " + e.getData() + ", Average Form: " + e.getY());
+        // Cast the data associated with the entry to a String and set it as the text of TextView
+        String horseForm = (String) e.getData();
+        tvContent.setText(horseForm);
         super.refreshContent(e, highlight);
     }
+
+
+
 }
