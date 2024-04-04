@@ -302,15 +302,17 @@ public class HorseActivity extends AppCompatActivity {
         ArrayList<Entry> entries = new ArrayList<>();
 
         // Iterate over the horse names and their corresponding form lists
-        for (Map.Entry<String, List<Integer>> entry : horseForms.entrySet()) {
-            String horseName = entry.getKey();
-            List<Integer> formList = entry.getValue();
+        for (Map.Entry<String, List<Integer>> formEntry : horseForms.entrySet()) {
+            String horseName = formEntry.getKey();
+            List<Integer> formList = formEntry.getValue();
 
             // Calculate the average form value
             double averageForm = calculateAverageForm(formList);
 
-            // Add an entry for each horse with its average form value
-            entries.add(new Entry(entries.size(), (float) averageForm));
+            // Add an entry for each horse with its average form value and horse name as data
+            Entry entry = new Entry(entries.size(), (float) averageForm);
+            entry.setData(horseName);
+            entries.add(entry);
         }
 
         // Create a dataset from the entries
@@ -341,9 +343,15 @@ public class HorseActivity extends AppCompatActivity {
         // Set the ScatterData to the ScatterChart
         scatterChart.setData(scatterData);
 
+        // Set custom marker view
+        CustomMarkerView markerView = new CustomMarkerView(this, R.layout.custom_marker_view);
+        markerView.setChartView(scatterChart);
+        scatterChart.setMarker(markerView);
+
         // Customize chart appearance
         scatterChart.invalidate(); // Refresh chart
     }
+
 
 
 
