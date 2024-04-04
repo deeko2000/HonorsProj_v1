@@ -190,6 +190,12 @@ public class HorseActivity extends AppCompatActivity {
                     double averageForm = calculateAverageForm(formList);
                     Log.d("HorseActivity", "Horse: " + horseName + ", Average Form: " + averageForm);
                 }
+                // Get reference to the ScatterChart
+                ScatterChart scatterChart = inflatedLayout.findViewById(R.id.scatter_chart);
+
+                // Plot average form values on ScatterChart
+                plotAverageFormOnScatterChart(horseForms, scatterChart);
+
             } else {
                 Log.d("HorseActivity", "No race found at the specified time.");
             }
@@ -289,6 +295,54 @@ public class HorseActivity extends AppCompatActivity {
         // Customize chart appearance
         lineChart.invalidate(); // Refresh chart
 
+    }
+
+    private void plotAverageFormOnScatterChart(Map<String, List<Integer>> horseForms, ScatterChart scatterChart) {
+        // Create entries for the scatter chart
+        ArrayList<Entry> entries = new ArrayList<>();
+
+        // Iterate over the horse names and their corresponding form lists
+        for (Map.Entry<String, List<Integer>> entry : horseForms.entrySet()) {
+            String horseName = entry.getKey();
+            List<Integer> formList = entry.getValue();
+
+            // Calculate the average form value
+            double averageForm = calculateAverageForm(formList);
+
+            // Add an entry for each horse with its average form value
+            entries.add(new Entry(entries.size(), (float) averageForm));
+        }
+
+        // Create a dataset from the entries
+        ScatterDataSet dataSet = new ScatterDataSet(entries, "Average Form Values");
+        // Set properties for the dataset (e.g., color)
+        dataSet.setColor(Color.BLUE);
+        dataSet.setScatterShape(ScatterChart.ScatterShape.CIRCLE); // Set scatter shape to circle
+        dataSet.setScatterShapeSize(10f); // Set size of scatter shape
+        dataSet.setDrawValues(false); // Disable drawing values on the data points
+
+        // Create a ScatterData object and set the dataset
+        ScatterData scatterData = new ScatterData(dataSet);
+
+        // Customize the appearance of the chart
+        scatterChart.getDescription().setEnabled(false); // Hide description
+        scatterChart.getXAxis().setEnabled(false); // Hide x-axis
+        scatterChart.getAxisLeft().setGranularity(1f); // Set granularity of y-axis
+        scatterChart.getAxisLeft().setAxisMinimum(1f); // Set minimum value for y-axis
+        scatterChart.getAxisLeft().setAxisMaximum(9f); // Set maximum value for y-axis
+        scatterChart.getAxisRight().setEnabled(false); // Hide right y-axis
+        scatterChart.getAxisLeft().setInverted(true); // Invert y-axis
+
+        // Add black border
+        scatterChart.setDrawBorders(true);
+        scatterChart.setBorderColor(Color.BLACK);
+        scatterChart.setBorderWidth(2f);
+
+        // Set the ScatterData to the ScatterChart
+        scatterChart.setData(scatterData);
+
+        // Customize chart appearance
+        scatterChart.invalidate(); // Refresh chart
     }
 
 
