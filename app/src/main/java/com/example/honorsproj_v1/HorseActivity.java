@@ -331,7 +331,7 @@ public class HorseActivity extends AppCompatActivity {
         scatterChart.getXAxis().setEnabled(false); // Hide x-axis
         scatterChart.getAxisLeft().setGranularity(1f); // Set granularity of y-axis
         scatterChart.getAxisLeft().setAxisMinimum(1f); // Set minimum value for y-axis
-        scatterChart.getAxisLeft().setAxisMaximum(9f); // Set maximum value for y-axis
+        scatterChart.getAxisLeft().setAxisMaximum(12f); // Set maximum value for y-axis
         scatterChart.getAxisRight().setEnabled(false); // Hide right y-axis
         scatterChart.getAxisLeft().setInverted(true); // Invert y-axis
 
