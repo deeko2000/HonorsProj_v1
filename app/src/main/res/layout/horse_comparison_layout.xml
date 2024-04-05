@@ -51,7 +51,7 @@
             android:hint="@string/race">
 
             <AutoCompleteTextView
-                android:id="@+id/auto_complete_meetingView"
+                android:id="@+id/auto_complete_horseCompView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/raceView"

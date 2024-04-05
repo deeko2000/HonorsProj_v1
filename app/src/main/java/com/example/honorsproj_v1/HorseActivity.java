@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -60,6 +61,7 @@ public class HorseActivity extends AppCompatActivity {
         time = convertTo12HourFormat(getIntent().getStringExtra("selected_race"));
         //time = getIntent().getStringExtra("selected_race");
         Log.d("HorseActivity", "Horse sent is " + horseName);
+        Log.d("HorseActivity", "Time sent is " + getIntent().getStringExtra("selected_race"));
 
         // Setup spinner with dropdown options
         Spinner spinner = findViewById(R.id.spinner);
@@ -83,8 +85,7 @@ public class HorseActivity extends AppCompatActivity {
                         break;
                     case "Horse Comparison":
                         inflatedLayout = inflater.inflate(R.layout.horse_comparison_layout, (ViewGroup) parentView.getParent(), false);
-                        TextView horseComparisonTextView = inflatedLayout.findViewById(R.id.previousSelectionTextView);
-                        horseComparisonTextView.setText(horseName);
+                        fillHorseComparisonLayout(inflatedLayout);
 
                         break;
                     case "Race Comparison":
@@ -128,6 +129,94 @@ public class HorseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    private void fillHorseComparisonLayout(View inflatedLayout) {
+        // You can put your code here to fill the horse comparison layout
+        // For example, you can retrieve the data of the selected horse from your data source
+        // and populate the layout accordingly.
+
+        TextView horseComparisonTextView = inflatedLayout.findViewById(R.id.previousSelectionTextView);
+        horseComparisonTextView.setText(horseName);
+
+        // Read the JSON data from the file
+        StringBuilder jsonData = new StringBuilder();
+        try {
+            FileInputStream fis = openFileInput("response_data.json");
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                jsonData.append(line);
+            }
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return; // If unable to read data, return without further processing
+        }
+
+        List<String> remainingHorses = new ArrayList<>(); // List to store remaining horses with numbers
+        try {
+            // Parse JSON data
+            JSONObject jsonObject = new JSONObject(jsonData.toString());
+            JSONArray racecardsArray = jsonObject.getJSONArray("racecards");
+
+            // Find the race with matching off_time
+            JSONObject targetRace = null;
+            for (int i = 0; i < racecardsArray.length(); i++) {
+                JSONObject raceObject = racecardsArray.getJSONObject(i);
+                String offTime = raceObject.getString("off_time");
+                if (offTime.equals(time)) {
+                    targetRace = raceObject;
+                    break;
+                }
+            }
+
+            if (targetRace != null) {
+                // Get the array of runners in the race
+                JSONArray runnersArray = targetRace.getJSONArray("runners");
+
+                // Remove the horse with matching name
+                JSONArray updatedRunnersArray = new JSONArray();
+                for (int i = 0; i < runnersArray.length(); i++) {
+                    JSONObject horseObject = runnersArray.getJSONObject(i);
+                    String horseNameInRace = horseObject.getString("horse");
+                    if (!horseNameInRace.equals(horseName)) {
+                        // Add the horse name with number to the list
+                        int horseNumber = i + 1;
+                        remainingHorses.add(horseNumber + " " + horseNameInRace);
+                        // Add the horse to the updated runners array
+                        JSONObject updatedHorseObject = new JSONObject();
+                        updatedHorseObject.put("horse", horseNameInRace);
+                        updatedRunnersArray.put(updatedHorseObject);
+                    }
+                }
+
+                // Print the names of remaining horses in the race
+                for (int i = 0; i < updatedRunnersArray.length(); i++) {
+                    JSONObject horseObject = updatedRunnersArray.getJSONObject(i);
+                    String horseName = horseObject.getString("horse");
+                    Log.d("HorseComparison", "Horse in the race: " + (i+1) + ". " + horseName);
+                    // You can do further processing with the remaining horse names as needed
+                }
+            } else {
+                Log.d("HorseComparison", "No race found at the specified time.");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // Create an ArrayAdapter with the list of remaining horse names
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, remainingHorses);
+
+        // Find the AutoCompleteTextView
+        AutoCompleteTextView autoCompleteTextView = inflatedLayout.findViewById(R.id.auto_complete_horseCompView);
+
+        // Set the adapter to the AutoCompleteTextView
+        autoCompleteTextView.setAdapter(adapter);
+    }
+
+
+
 
     private void fillRaceComparisonLayout(View inflatedLayout) {
         Log.d("HorseActivity", "TIME IS " + time);
