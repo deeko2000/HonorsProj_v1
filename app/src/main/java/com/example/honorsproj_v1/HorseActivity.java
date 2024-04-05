@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -82,6 +83,9 @@ public class HorseActivity extends AppCompatActivity {
                         break;
                     case "Horse Comparison":
                         inflatedLayout = inflater.inflate(R.layout.horse_comparison_layout, (ViewGroup) parentView.getParent(), false);
+                        TextView horseComparisonTextView = inflatedLayout.findViewById(R.id.previousSelectionTextView);
+                        horseComparisonTextView.setText(horseName);
+
                         break;
                     case "Race Comparison":
                         inflatedLayout = inflater.inflate(R.layout.race_comparison_layout, (ViewGroup) parentView.getParent(), false);
