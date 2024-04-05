@@ -15,7 +15,12 @@ import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModel;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.ScatterChart;
@@ -35,6 +40,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,7 +50,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HorseActivity extends AppCompatActivity {
+import javax.security.auth.callback.Callback;
+
+import okhttp3.Call;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
 
 
     String horseName;
@@ -138,6 +153,27 @@ public class HorseActivity extends AppCompatActivity {
         TextView horseComparisonTextView = inflatedLayout.findViewById(R.id.previousSelectionTextView);
         horseComparisonTextView.setText(horseName);
 
+        // Initialize the HorseViewModel
+        HorseViewModel horseViewModel = new ViewModelProvider(this).get(HorseViewModel.class);
+
+        horseViewModel.getHorseId(horseName, new HorseViewModel.OnHorseIdReceivedListener() {
+            @Override
+            public void onHorseIdReceived(String horseId) {
+                // Handle the received horse ID here
+                Log.d("HorseComparison", "Horse id number is : " + horseId);
+                horseViewModel.queryApiWithHorseId(horseId);
+            }
+            @Override
+            public void onFailure() {
+                // Handle failure here
+            }
+        });
+
+
+
+
+
+
         // Read the JSON data from the file
         StringBuilder jsonData = new StringBuilder();
         try {
@@ -213,6 +249,8 @@ public class HorseActivity extends AppCompatActivity {
 
         // Set the adapter to the AutoCompleteTextView
         autoCompleteTextView.setAdapter(adapter);
+
+
     }
 
 
