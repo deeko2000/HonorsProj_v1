@@ -209,12 +209,12 @@ public class HorseActivity extends AppCompatActivity {
         List<Integer> formList = new ArrayList<>();
         for (int i = 0; i < form.length(); i++) {
             char result = form.charAt(i);
-            if (Character.isDigit(result)) {
+            if (Character.isDigit(result) && result != '0') {
                 int value = Character.getNumericValue(result);
                 formList.add(value);
             } else {
                 // Check if the character represents poor performance
-                if (result == 'P' || result == 'U') {
+                if (result == 'P' || result == 'U' || result == '0') {
                     formList.add(9);
                 }
                 // Check if the character represents non-participation or unknown performance
@@ -320,7 +320,7 @@ public class HorseActivity extends AppCompatActivity {
             double averageForm = calculateAverageForm(formList);
 
             // Concatenate horse's name and form into a single string
-            String data = horseName + ": " + formList.toString();
+            String data = horseName + ": " + averageForm;
 
             // Add an entry for each horse with its average form value and horse name as data
             Entry entry = new Entry(entries.size(), (float) averageForm);
@@ -364,6 +364,7 @@ public class HorseActivity extends AppCompatActivity {
         // Customize chart appearance
         scatterChart.invalidate(); // Refresh chart
     }
+
 
 
 
