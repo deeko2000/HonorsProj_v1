@@ -1,77 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/horse_comparison_layout">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/horse_comparison_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:layout_height="wrap_content">
 
-        <!-- Your other views here -->
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/box"> <!-- Set the background to the drawable -->
-
-            <TextView
-                android:id="@+id/previousSelectionTextView"
-                android:layout_width="361dp"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:text="Previous Selection:  "
-                android:textColor="@android:color/black"
-                android:textStyle="bold" /> <!-- Set text color to black -->
-
-        </FrameLayout>
-
-        <TextView
-            android:id="@+id/compareTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Compare With "
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:paddingTop="20dp"/>
-
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/meetingView"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/raceView"
-            android:layout_margin="16dp"
-            android:hint="@string/race">
+            android:orientation="vertical"
+            android:gravity="center">
 
-            <AutoCompleteTextView
-                android:id="@+id/auto_complete_horseCompView"
+            <!-- Your other views here -->
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/box"> <!-- Set the background to the drawable -->
+
+                <TextView
+                    android:id="@+id/previousSelectionTextView"
+                    android:layout_width="361dp"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:text="Previous Selection:  "
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" /> <!-- Set text color to black -->
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/compareTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Compare With "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:paddingTop="20dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/meetingView"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/raceView"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_margin="16dp"
+                android:hint="Select Horse">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="horse_comparison_layout"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
+                <AutoCompleteTextView
+                    android:id="@+id/auto_complete_horseCompView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/raceView"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Add BarChart below AutoCompleteTextView -->
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barChart"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/white" />
 
+            <!-- Add Stacked BarChart below BarChart -->
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/stackedBarChart"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/white" />
 
+            <!-- Add BoxPlot below Stacked BarChart -->
+            <!-- Define your BoxPlot view here -->
 
+            <!-- Add LinearLayout for two side-by-side PieCharts -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <!-- Add PieChart 1 -->
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart1"
+                    android:layout_width="0dp"
+                    android:layout_height="300dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/white" />
+
+                <!-- Add PieChart 2 -->
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart2"
+                    android:layout_width="0dp"
+                    android:layout_height="300dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/white" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="horse_comparison_layout"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
