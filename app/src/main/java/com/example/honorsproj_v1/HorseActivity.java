@@ -73,7 +73,7 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
 
     String horseName;
     private String firstResponseJson = "{\"horse\":\"Hawkseye View\",\"id_horse\":\"276810\",\"results\":[{\"date\":\"10-04-2024\",\"position\":\"\",\"course\":\"Market Rasen\",\"distance\":\"2m4f\",\"class\":\"5\",\"weight\":\"12-0\",\"starting_price\":\"15\",\"jockey\":\"William Maggs\",\"trainer\":\"Sue Smith\",\"OR\":\"100\",\"race\":\"RASEN ROCKS FEATURING ELLA HENDERSON HANDICAP HURDLE (5)\",\"prize\":\"\\u00a34093\"},{\"date\":\"28-03-2024\",\"position\":\"10\",\"course\":\"Wetherby\",\"distance\":\"2m5f\",\"class\":\"4\",\"weight\":\"10-11\",\"starting_price\":\"34\",\"jockey\":\"Nick Scholfield\",\"trainer\":\"Sue Smith\",\"OR\":\"103\",\"race\":\"FULL CIRCLE SERIES AT PUNCHESTOWN FESTIVAL HANDICAP HURDLE (4)\",\"prize\":\"\\u00a33961\"},{\"date\":\"23-02-2024\",\"position\":\"4\",\"course\":\"Sedgefield\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-9\",\"starting_price\":\"12\",\"jockey\":\"Ross Chapman\",\"trainer\":\"Sue Smith\",\"OR\":\"105\",\"race\":\"LIVE STREAMING AT YEEEHAAA.BET HANDICAP HURDLE (Qualifier) (4)\",\"prize\":\"\\u00a34066\"},{\"date\":\"28-01-2024\",\"position\":\"6\",\"course\":\"Doncaster\",\"distance\":\"2m3f\",\"class\":\"3\",\"weight\":\"11-10\",\"starting_price\":\"41\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"SBK EBF NATIONAL HUNT MAIDEN HURDLE (Qualifier) (3)\",\"prize\":\"\\u00a36317\"},{\"date\":\"01-01-2024\",\"position\":\"2\",\"course\":\"Catterick Bridge\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-5\",\"starting_price\":\"2.62\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"HAPPY NEW YEAR NOVICES HURDLE (4)\",\"prize\":\"\\u00a34356\"},{\"date\":\"19-12-2023\",\"position\":\"3\",\"course\":\"Catterick Bridge\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-0\",\"starting_price\":\"29\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"BEST ODDS GUARANTEED AT VICKERS.BET NOVICES HURDLE (4)\",\"prize\":\"\\u00a34357\"},{\"date\":\"06-10-2023\",\"position\":\"5\",\"course\":\"Hexham\",\"distance\":\"2m\",\"class\":\"4\",\"weight\":\"10-13\",\"starting_price\":\"19\",\"jockey\":\"Sean Quinlan\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"LANGLEY CASTLE AN OUTSTANDING SMALL HOTEL NATIONAL HUNT NOVICES HURDLE (4)\",\"prize\":\"\\u00a34901\"}]}";
-    private String secondResponseJson = "{\"horse\":\"Hawkseye View\",\"id_horse\":\"276810\",\"results\":[{\"date\":\"10-04-2024\",\"position\":\"\",\"course\":\"Market Rasen\",\"distance\":\"2m4f\",\"class\":\"5\",\"weight\":\"12-0\",\"starting_price\":\"15\",\"jockey\":\"William Maggs\",\"trainer\":\"Sue Smith\",\"OR\":\"100\",\"race\":\"RASEN ROCKS FEATURING ELLA HENDERSON HANDICAP HURDLE (5)\",\"prize\":\"\\u00a34093\"},{\"date\":\"28-03-2024\",\"position\":\"10\",\"course\":\"Wetherby\",\"distance\":\"2m5f\",\"class\":\"4\",\"weight\":\"10-11\",\"starting_price\":\"34\",\"jockey\":\"Nick Scholfield\",\"trainer\":\"Sue Smith\",\"OR\":\"103\",\"race\":\"FULL CIRCLE SERIES AT PUNCHESTOWN FESTIVAL HANDICAP HURDLE (4)\",\"prize\":\"\\u00a33961\"},{\"date\":\"23-02-2024\",\"position\":\"4\",\"course\":\"Sedgefield\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-9\",\"starting_price\":\"12\",\"jockey\":\"Ross Chapman\",\"trainer\":\"Sue Smith\",\"OR\":\"105\",\"race\":\"LIVE STREAMING AT YEEEHAAA.BET HANDICAP HURDLE (Qualifier) (4)\",\"prize\":\"\\u00a34066\"},{\"date\":\"28-01-2024\",\"position\":\"6\",\"course\":\"Doncaster\",\"distance\":\"2m3f\",\"class\":\"3\",\"weight\":\"11-10\",\"starting_price\":\"41\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"SBK EBF NATIONAL HUNT MAIDEN HURDLE (Qualifier) (3)\",\"prize\":\"\\u00a36317\"},{\"date\":\"01-01-2024\",\"position\":\"2\",\"course\":\"Catterick Bridge\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-5\",\"starting_price\":\"2.62\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"HAPPY NEW YEAR NOVICES HURDLE (4)\",\"prize\":\"\\u00a34356\"},{\"date\":\"19-12-2023\",\"position\":\"3\",\"course\":\"Catterick Bridge\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-0\",\"starting_price\":\"29\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"BEST ODDS GUARANTEED AT VICKERS.BET NOVICES HURDLE (4)\",\"prize\":\"\\u00a34357\"},{\"date\":\"06-10-2023\",\"position\":\"5\",\"course\":\"Hexham\",\"distance\":\"2m\",\"class\":\"4\",\"weight\":\"10-13\",\"starting_price\":\"19\",\"jockey\":\"Sean Quinlan\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"LANGLEY CASTLE AN OUTSTANDING SMALL HOTEL NATIONAL HUNT NOVICES HURDLE (4)\",\"prize\":\"\\u00a34901\"}]}";
+    private String secondResponseJson = "{ \"horse\": \"Dexperado(FR)\", \"id_horse\": \"270546\", \"results\": [ { \"date\": \"10-04-2024\", \"position\": \"2\", \"course\": \"Market Rasen\", \"distance\": \"2m4f\", \"class\": \"5\", \"weight\": \"11-4\", \"starting_price\": \"6.5\", \"jockey\": \"Charlie Hammond\", \"trainer\": \"Nick Kent\", \"OR\": \"90\", \"race\": \"RASEN ROCKS FEATURING ELLA HENDERSON HANDICAP HURDLE (5)\", \"prize\": \"£4093\" }, { \"date\": \"20-03-2024\", \"position\": \"2\", \"course\": \"Market Rasen\", \"distance\": \"2m4f\", \"class\": \"5\", \"weight\": \"11-5\", \"starting_price\": \"7\", \"jockey\": \"Charlie Hammond\", \"trainer\": \"Nick Kent\", \"OR\": \"86\", \"race\": \"FAMILY EXTRAVAGANZA RACEDAY SUNDAY 7th JULY NOVICES LIMITED HANDICAP HURDLE (5)\", \"prize\": \"£7000\" }, { \"date\": \"10-01-2024\", \"position\": \"9\", \"course\": \"Doncaster\", \"distance\": \"2m\", \"class\": \"4\", \"weight\": \"11-4\", \"starting_price\": \"126\", \"jockey\": \"Charlie Hammond\", \"trainer\": \"Nick Kent\", \"OR\": \"\", \"race\": \"DOWNLOAD THE AT THE RACES APP NOVICES HURDLE (4) (D.II)\", \"prize\": \"£4193\" }, { \"date\": \"13-10-2023\", \"position\": \"11\", \"course\": \"Chepstow\", \"distance\": \"2m\", \"class\": \"4\", \"weight\": \"10-13\", \"starting_price\": \"126\", \"jockey\": \"Charlie Hammond\", \"trainer\": \"Nick Kent\", \"OR\": \"\", \"race\": \"CHEPSTOW PLANT INTERNATIONAL NOVICES HURDLE (4)\", \"prize\": \"£4901\" }, { \"date\": \"13-05-2023\", \"position\": \"6\", \"course\": \"Warwick\", \"distance\": \"2m\", \"class\": \"4\", \"weight\": \"10-12\", \"starting_price\": \"34\", \"jockey\": \"Mr Tom Broughton\", \"trainer\": \"Nick Kent\", \"OR\": \"\", \"race\": \"HAPPY HEAVENLY BIRTHDAY FRANK JORDAN NATIONAL HUNT MAIDEN HURDLE (4) (D.I)\", \"prize\": \"£4084\" }, { \"date\": \"06-02-2023\", \"position\": \"6\", \"course\": \"Carlisle\", \"distance\": \"2m1f\", \"class\": \"5\", \"weight\": \"10-9\", \"starting_price\": \"4\", \"jockey\": \"Charlie Hammond\", \"trainer\": \"Nick Kent\", \"OR\": \"\", \"race\": \"LYNE OPEN NATIONAL HUNT FLAT (Qualifier) (5)\", \"prize\": \"£2669\"}]}";
 
     String time;
     @Override
@@ -355,12 +355,68 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
                     // Handle the case when forms or horseNames is empty
                 }
 
+                Map<String, Map<String, Map<Integer, String>>> horseData = parseHorseData(firstResponseJson, secondResponseJson);
+
+                // Printing the parsed data
+                for (Map.Entry<String, Map<String, Map<Integer, String>>> entry : horseData.entrySet()) {
+                    System.out.println("Horse: " + entry.getKey());
+                    Map<String, Map<Integer, String>> raceData = entry.getValue();
+                    for (Map.Entry<String, Map<Integer, String>> raceEntry : raceData.entrySet()) {
+                        System.out.println("Race: " + raceEntry.getKey());
+                        Map<Integer, String> positionDistanceMap = raceEntry.getValue();
+                        for (Map.Entry<Integer, String> positionDistanceEntry : positionDistanceMap.entrySet()) {
+                            System.out.println("Position: " + positionDistanceEntry.getKey() + ", Distance: " + positionDistanceEntry.getValue());
+                        }
+                    }
+                }
+
 
             }
         });
 
+    }
+
+    public static Map<String, Map<String, Map<Integer, String>>> parseHorseData(String firstResponseJson, String secondResponseJson) {
+        Map<String, Map<String, Map<Integer, String>>> horseData = new HashMap<>();
+
+        try {
+            parseHorseJson(firstResponseJson, horseData);
+            parseHorseJson(secondResponseJson, horseData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return horseData;
+    }
 
 
+    public static void parseHorseJson(String horseJson, Map<String, Map<String, Map<Integer, String>>> horseData) throws JSONException {
+        JSONObject jsonObject = new JSONObject(horseJson);
+        String horseName = jsonObject.getString("horse");
+
+        JSONArray resultsArray = jsonObject.getJSONArray("results");
+        Map<String, Map<Integer, String>> raceData = horseData.getOrDefault(horseName, new HashMap<>());
+
+        for (int i = 0; i < resultsArray.length(); i++) {
+            JSONObject resultObject = resultsArray.getJSONObject(i);
+            String raceName = resultObject.getString("race");
+            String position = resultObject.getString("position");
+            String distance = resultObject.getString("distance");
+
+            Map<Integer, String> positionDistanceMap = raceData.getOrDefault(raceName, new HashMap<>());
+            positionDistanceMap.put(parsePosition(position), distance);
+            raceData.put(raceName, positionDistanceMap);
+        }
+
+        horseData.put(horseName, raceData);
+    }
+
+    public static int parsePosition(String positionString) {
+        if (positionString.isEmpty()) {
+            return -1; // If position is empty, indicating the horse didn't finish the race
+        } else {
+            return Integer.parseInt(positionString);
+        }
     }
 
 
@@ -409,9 +465,6 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
 
         return form.toString();
     }
-
-
-
 
     private void fillRaceComparisonLayout(View inflatedLayout) {
         Log.d("HorseActivity", "TIME IS " + time);
@@ -514,7 +567,6 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
         return formList;
     }
 
-
     // Method to calculate average form of a horse
     private double calculateAverageForm(List<Integer> formList) {
         if (formList.isEmpty()) {
@@ -527,8 +579,6 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
         return (double) sum / formList.size();
     }
 
-
-
     private void plotFormOnLineChart(String form, LineChart lineChart, String horseName) {
         // Replace '0' with '9' in the form variable
         form = form.replace('0', '9');
@@ -538,8 +588,6 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
         form = form.replace('R', '9');
         form = form.replace('B', '9');
         form = form.replace('D', '9');
-
-
 
         // Check if form string is empty
         if (form.isEmpty()) {
@@ -657,8 +705,6 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
         return colors[index % colors.length];
     }
 
-
-
     private void plotAverageFormOnScatterChart(Map<String, List<Integer>> horseForms, ScatterChart scatterChart) {
         // Create entries for the scatter chart
         ArrayList<Entry> entries = new ArrayList<>();
@@ -716,8 +762,6 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
         // Customize chart appearance
         scatterChart.invalidate(); // Refresh chart
     }
-
-
 
     private void horseDetailInformation(View inflatedLayout) {
 
