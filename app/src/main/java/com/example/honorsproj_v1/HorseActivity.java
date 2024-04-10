@@ -402,9 +402,10 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
             String raceName = resultObject.getString("race");
             String position = resultObject.getString("position");
             String distance = resultObject.getString("distance");
+            String raceClass = resultObject.getString("class");
 
             Map<Integer, String> positionDistanceMap = raceData.getOrDefault(raceName, new HashMap<>());
-            positionDistanceMap.put(parsePosition(position), distance);
+            positionDistanceMap.put(parsePosition(position), distance + "-" + raceClass);
             raceData.put(raceName, positionDistanceMap);
         }
 
