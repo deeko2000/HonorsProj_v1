@@ -82,7 +82,7 @@ public class HorseViewModel extends ViewModel {
                 // Handle the response of the second API call
                 if (response.isSuccessful()) {
                     String responseData = response.body().string();
-                    System.out.println("Second API Response: " + responseData);
+                    System.out.println("API Response: " + responseData);
                 } else {
                     System.out.println("Second API Call failed");
                 }
