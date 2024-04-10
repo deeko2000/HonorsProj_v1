@@ -46,6 +46,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
@@ -71,6 +72,8 @@ import okhttp3.Response;
 public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
 
     String horseName;
+    private String firstResponseJson = "{\"horse\":\"Hawkseye View\",\"id_horse\":\"276810\",\"results\":[{\"date\":\"10-04-2024\",\"position\":\"\",\"course\":\"Market Rasen\",\"distance\":\"2m4f\",\"class\":\"5\",\"weight\":\"12-0\",\"starting_price\":\"15\",\"jockey\":\"William Maggs\",\"trainer\":\"Sue Smith\",\"OR\":\"100\",\"race\":\"RASEN ROCKS FEATURING ELLA HENDERSON HANDICAP HURDLE (5)\",\"prize\":\"\\u00a34093\"},{\"date\":\"28-03-2024\",\"position\":\"10\",\"course\":\"Wetherby\",\"distance\":\"2m5f\",\"class\":\"4\",\"weight\":\"10-11\",\"starting_price\":\"34\",\"jockey\":\"Nick Scholfield\",\"trainer\":\"Sue Smith\",\"OR\":\"103\",\"race\":\"FULL CIRCLE SERIES AT PUNCHESTOWN FESTIVAL HANDICAP HURDLE (4)\",\"prize\":\"\\u00a33961\"},{\"date\":\"23-02-2024\",\"position\":\"4\",\"course\":\"Sedgefield\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-9\",\"starting_price\":\"12\",\"jockey\":\"Ross Chapman\",\"trainer\":\"Sue Smith\",\"OR\":\"105\",\"race\":\"LIVE STREAMING AT YEEEHAAA.BET HANDICAP HURDLE (Qualifier) (4)\",\"prize\":\"\\u00a34066\"},{\"date\":\"28-01-2024\",\"position\":\"6\",\"course\":\"Doncaster\",\"distance\":\"2m3f\",\"class\":\"3\",\"weight\":\"11-10\",\"starting_price\":\"41\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"SBK EBF NATIONAL HUNT MAIDEN HURDLE (Qualifier) (3)\",\"prize\":\"\\u00a36317\"},{\"date\":\"01-01-2024\",\"position\":\"2\",\"course\":\"Catterick Bridge\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-5\",\"starting_price\":\"2.62\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"HAPPY NEW YEAR NOVICES HURDLE (4)\",\"prize\":\"\\u00a34356\"},{\"date\":\"19-12-2023\",\"position\":\"3\",\"course\":\"Catterick Bridge\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-0\",\"starting_price\":\"29\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"BEST ODDS GUARANTEED AT VICKERS.BET NOVICES HURDLE (4)\",\"prize\":\"\\u00a34357\"},{\"date\":\"06-10-2023\",\"position\":\"5\",\"course\":\"Hexham\",\"distance\":\"2m\",\"class\":\"4\",\"weight\":\"10-13\",\"starting_price\":\"19\",\"jockey\":\"Sean Quinlan\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"LANGLEY CASTLE AN OUTSTANDING SMALL HOTEL NATIONAL HUNT NOVICES HURDLE (4)\",\"prize\":\"\\u00a34901\"}]}";
+    private String secondResponseJson = "{\"horse\":\"Hawkseye View\",\"id_horse\":\"276810\",\"results\":[{\"date\":\"10-04-2024\",\"position\":\"\",\"course\":\"Market Rasen\",\"distance\":\"2m4f\",\"class\":\"5\",\"weight\":\"12-0\",\"starting_price\":\"15\",\"jockey\":\"William Maggs\",\"trainer\":\"Sue Smith\",\"OR\":\"100\",\"race\":\"RASEN ROCKS FEATURING ELLA HENDERSON HANDICAP HURDLE (5)\",\"prize\":\"\\u00a34093\"},{\"date\":\"28-03-2024\",\"position\":\"10\",\"course\":\"Wetherby\",\"distance\":\"2m5f\",\"class\":\"4\",\"weight\":\"10-11\",\"starting_price\":\"34\",\"jockey\":\"Nick Scholfield\",\"trainer\":\"Sue Smith\",\"OR\":\"103\",\"race\":\"FULL CIRCLE SERIES AT PUNCHESTOWN FESTIVAL HANDICAP HURDLE (4)\",\"prize\":\"\\u00a33961\"},{\"date\":\"23-02-2024\",\"position\":\"4\",\"course\":\"Sedgefield\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-9\",\"starting_price\":\"12\",\"jockey\":\"Ross Chapman\",\"trainer\":\"Sue Smith\",\"OR\":\"105\",\"race\":\"LIVE STREAMING AT YEEEHAAA.BET HANDICAP HURDLE (Qualifier) (4)\",\"prize\":\"\\u00a34066\"},{\"date\":\"28-01-2024\",\"position\":\"6\",\"course\":\"Doncaster\",\"distance\":\"2m3f\",\"class\":\"3\",\"weight\":\"11-10\",\"starting_price\":\"41\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"SBK EBF NATIONAL HUNT MAIDEN HURDLE (Qualifier) (3)\",\"prize\":\"\\u00a36317\"},{\"date\":\"01-01-2024\",\"position\":\"2\",\"course\":\"Catterick Bridge\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-5\",\"starting_price\":\"2.62\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"HAPPY NEW YEAR NOVICES HURDLE (4)\",\"prize\":\"\\u00a34356\"},{\"date\":\"19-12-2023\",\"position\":\"3\",\"course\":\"Catterick Bridge\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-0\",\"starting_price\":\"29\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"BEST ODDS GUARANTEED AT VICKERS.BET NOVICES HURDLE (4)\",\"prize\":\"\\u00a34357\"},{\"date\":\"06-10-2023\",\"position\":\"5\",\"course\":\"Hexham\",\"distance\":\"2m\",\"class\":\"4\",\"weight\":\"10-13\",\"starting_price\":\"19\",\"jockey\":\"Sean Quinlan\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"LANGLEY CASTLE AN OUTSTANDING SMALL HOTEL NATIONAL HUNT NOVICES HURDLE (4)\",\"prize\":\"\\u00a34901\"}]}";
 
     String time;
     @Override
@@ -155,6 +158,9 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
     }
 
     private void fillHorseComparisonLayout(View inflatedLayout) {
+        final String[] form1 = {null};
+        final String[] form2 = {null};
+        LineChart dbllinechart = inflatedLayout.findViewById(R.id.bothLineChart);
         // You can put your code here to fill the horse comparison layout
         // For example, you can retrieve the data of the selected horse from your data source
         // and populate the layout accordingly.
@@ -165,18 +171,39 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
         // Initialize the HorseViewModel
         HorseViewModel horseViewModel = new ViewModelProvider(this).get(HorseViewModel.class);
 
-        horseViewModel.getHorseId(horseName, new HorseViewModel.OnHorseIdReceivedListener() {
-            @Override
-            public void onHorseIdReceived(String horseId) {
-                // Handle the received horse ID here
-                Log.d("HorseComparison", "Horse id number is : " + horseId);
-                horseViewModel.queryApiWithHorseId(horseId);
-            }
-            @Override
-            public void onFailure() {
-                // Handle failure here
-            }
-        });
+//        horseViewModel.getHorseId(horseName, new HorseViewModel.OnHorseIdReceivedListener() {
+//            @Override
+//            public void onHorseIdReceived(String horseId) {
+//                // Handle the received horse ID here
+//                Log.d("HorseComparison", "Horse id number is : " + horseId);
+//                horseViewModel.queryApiWithHorseId(horseId, new HorseViewModel.OnApiDataReceivedListener() {
+//                    @Override
+//                    public void onDataReceived(String data) {
+//                        // Handle API data received here
+//                        Log.d("HorseComparison", "API Response: " + data);
+//                        //firstResponseJson = data;
+//                    }
+//
+//                    @Override
+//                    public void onFailure() {
+//                        // Handle failure here
+//                        Log.d("HorseComparison", "Second API Call failed");
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onFailure() {
+//                // Handle failure here
+//            }
+//        });
+
+
+        form1[0] = extractHorseForm(horseName);
+        Log.d("HorseComparison", "FORM IS BAGGING " + form1[0]);
+        Log.d("HorseComparison", "FORM IS BAGGING FIXED " + parseForm(form1[0]));
+        form1[0] = parseForm(form1[0]).toString();
+        plotFormOnLineChart(form1[0],dbllinechart, horseName);
 
 
 
@@ -272,19 +299,63 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
                 // For example:
                 Toast.makeText(getApplicationContext(), "Selected: " + selectedHorse, Toast.LENGTH_SHORT).show();
 
+                form2[0] = extractHorseForm(selectedHorse);
+                Log.d("HorseComparison", "FORM IS BAGGINGz " + form2[0]);
+                Log.d("HorseComparison", "FORM IS BAGGINGz FIXED " + parseForm(form2[0]));
+                form2[0] = parseForm(form2[0]).toString();
                 // Make the API call again with the selected horse
-                horseViewModel.getHorseId(selectedHorse, new HorseViewModel.OnHorseIdReceivedListener() {
-                    @Override
-                    public void onHorseIdReceived(String horseId) {
-                        // Handle the received horse ID here
-                        Log.d("HorseComparison", "Horse id number is : " + horseId);
-                        horseViewModel.queryApiWithHorseId(horseId);
-                    }
-                    @Override
-                    public void onFailure() {
-                        // Handle failure here
-                    }
-                });
+//                horseViewModel.getHorseId(horseName, new HorseViewModel.OnHorseIdReceivedListener() {
+//                    @Override
+//                    public void onHorseIdReceived(String horseId) {
+//                        // Handle the received horse ID here
+//                        Log.d("HorseComparison", "Horse id number is : " + horseId);
+//                        horseViewModel.queryApiWithHorseId(horseId, new HorseViewModel.OnApiDataReceivedListener() {
+//                            @Override
+//                            public void onDataReceived(String data) {
+//                                // Handle API data received here
+//                                Log.d("HorseComparison", "API Response: " + data);
+//                                //secondResponseJson = data;
+//                            }
+//
+//                            @Override
+//                            public void onFailure() {
+//                                // Handle failure here
+//                                Log.d("HorseComparison", "Second API Call failed");
+//                            }
+//                        });
+//                    }
+//
+//                    @Override
+//                    public void onFailure() {
+//                        // Handle failure here
+//                    }
+//                });
+
+
+                // Initialize lists to store forms and horse names
+                List<String> forms = new ArrayList<>();
+                List<String> horseNames = new ArrayList<>();
+
+                // Add the first horse's form and name to the lists
+                if (form1[0] != null && horseName != null) {
+                    forms.add(form1[0]);
+                    horseNames.add(horseName);
+                }
+
+                // Add the second horse's form and name to the lists
+                if (form2[0] != null && selectedHorse != null) {
+                    forms.add(form2[0]);
+                    horseNames.add(selectedHorse);
+                }
+
+                // Plot multiple forms on the line chart if forms and horseNames are not empty
+                if (!forms.isEmpty() && !horseNames.isEmpty()) {
+                    plotMultipleFormsOnLineChart(forms, dbllinechart, horseNames);
+                } else {
+                    // Handle the case when forms or horseNames is empty
+                }
+
+
             }
         });
 
@@ -293,11 +364,51 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
     }
 
 
+    // Method to extract the form of a horse from response_data.json
+    public String extractHorseForm(String horseName) {
+        StringBuilder form = new StringBuilder();
 
+        try {
+            // Read the JSON data from the file
+            FileInputStream fis = new FileInputStream(getFilesDir().getPath() + "/response_data.json");
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder jsonData = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                jsonData.append(line);
+            }
+            br.close();
 
+            // Parse JSON data
+            JSONObject jsonObject = new JSONObject(jsonData.toString());
+            JSONArray racecardsArray = jsonObject.getJSONArray("racecards");
 
+            // Iterate through racecards to find the horse form
+            for (int i = 0; i < racecardsArray.length(); i++) {
+                JSONObject raceObject = racecardsArray.getJSONObject(i);
+                JSONArray runnersArray = raceObject.getJSONArray("runners");
 
+                // Iterate through runners to find the horse
+                for (int j = 0; j < runnersArray.length(); j++) {
+                    JSONObject horseObject = runnersArray.getJSONObject(j);
+                    String name = horseObject.getString("horse");
 
+                    // Check if the horse name matches the passed-in horseName
+                    if (name.equals(horseName)) {
+                        // Extract the form of the horse
+                        form.append(horseObject.optString("form", ""));
+                        // Break the loop as we found the horse
+                        break;
+                    }
+                }
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        return form.toString();
+    }
 
 
 
@@ -421,6 +532,14 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
     private void plotFormOnLineChart(String form, LineChart lineChart, String horseName) {
         // Replace '0' with '9' in the form variable
         form = form.replace('0', '9');
+        form = form.replace('P', '9');
+        form = form.replace('U', '9');
+        form = form.replace('F', '9');
+        form = form.replace('R', '9');
+        form = form.replace('B', '9');
+        form = form.replace('D', '9');
+
+
 
         // Check if form string is empty
         if (form.isEmpty()) {
@@ -483,6 +602,62 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
         lineChart.invalidate(); // Refresh chart
 
     }
+    private void plotMultipleFormsOnLineChart(List<String> forms, LineChart lineChart, List<String> horseNames) {
+        // Create a LineData object to hold all LineDataSet objects
+        LineData lineData = new LineData();
+
+        // Iterate through each form and horse name
+        for (int i = 0; i < forms.size(); i++) {
+            String form = forms.get(i);
+            String horseName = horseNames.get(i);
+
+            // Create entries for the line chart
+            ArrayList<Entry> entries = new ArrayList<>();
+            int xIndex = 0; // Start index from 0
+
+            // Parse the form string and create entries
+            for (int j = 0; j < form.length(); j++) {
+                char result = form.charAt(j);
+                if (Character.isDigit(result)) {
+                    int value = Character.getNumericValue(result);
+                    // Add an entry for each digit in the form string
+                    entries.add(new Entry(xIndex, value));
+                    xIndex++;
+                } else if (result == '-') {
+                    // Skip the '-' character
+                    continue;
+                }
+            }
+
+            // Create a dataset from the entries
+            LineDataSet dataSet = new LineDataSet(entries, horseName + "'s Recent Form");
+            // Set properties for the dataset (e.g., color)
+            dataSet.setColor(getColorForHorse(i)); // You may need to implement getColorForHorse method to get different colors for each horse
+            dataSet.setCircleColor(getColorForHorse(i));
+            dataSet.setCircleRadius(5f);
+            dataSet.setDrawValues(false); // Disable drawing values on the data points
+            dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER); // Set bezier curve interpolation
+
+            // Add the dataset to the LineData object
+            lineData.addDataSet(dataSet);
+        }
+
+        // Set the LineData to the LineChart
+        lineChart.setData(lineData);
+
+        // Refresh chart
+        lineChart.invalidate();
+    }
+
+    private int getColorForHorse(int index) {
+        // Define an array of colors
+        int[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.MAGENTA, Color.CYAN};
+
+        // Return the color based on the index
+        return colors[index % colors.length];
+    }
+
+
 
     private void plotAverageFormOnScatterChart(Map<String, List<Integer>> horseForms, ScatterChart scatterChart) {
         // Create entries for the scatter chart
@@ -544,11 +719,6 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
 
 
 
-
-
-
-
-
     private void horseDetailInformation(View inflatedLayout) {
 
         LineChart lineChart = inflatedLayout.findViewById(R.id.lineChart);
@@ -581,6 +751,7 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
                     if (name.equals(horseName)) {
                         // Fill TextViews with matching fields
                         fillTextViews(horseObject, inflatedLayout);
+                        Log.d("HorseComparison", "PLOTTED FORM IS " + horseObject.getString("form"));
                         // Plot the form on the line chart
                         plotFormOnLineChart(horseObject.getString("form"), lineChart, horseName);
                         break;

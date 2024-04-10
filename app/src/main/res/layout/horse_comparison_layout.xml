@@ -63,12 +63,11 @@
             <!-- Add BarChart below AutoCompleteTextView LINE GRAPH WITH
             BOTH FORMS VISUALISED-->
 
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/barChart"
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/bothLineChart"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_marginTop="16dp"
-                android:background="@android:color/white" />
+                />
 
             <!-- Add Stacked BarChart below BarChart average positions
             of horses across different race distances-->

@@ -48,9 +48,6 @@ public class HorseViewModel extends ViewModel {
                     String responseBody = response.body().string();
                     String horseId = parseHorseId(responseBody); // Implement this method to parse horseId from response
                     listener.onHorseIdReceived(horseId);
-
-                    // Query the second API with the obtained horseId
-                    queryApiWithHorseId(horseId);
                 } else {
                     // Handle unsuccessful response
                     listener.onFailure();
@@ -60,7 +57,7 @@ public class HorseViewModel extends ViewModel {
     }
 
     // Method to query a different API using horseId
-    void queryApiWithHorseId(String horseId) {
+    void queryApiWithHorseId(String horseId, final OnApiDataReceivedListener listener) {
         // Build the request with the horseId
         Request request = new Request.Builder()
                 .url("https://horse-racing.p.rapidapi.com/horse-stats/" + horseId) // Use the horseId from the first API call
@@ -75,6 +72,7 @@ public class HorseViewModel extends ViewModel {
             public void onFailure(Call call, IOException e) {
                 // Handle failure of the second API call
                 e.printStackTrace();
+                listener.onFailure();
             }
 
             @Override
@@ -82,9 +80,9 @@ public class HorseViewModel extends ViewModel {
                 // Handle the response of the second API call
                 if (response.isSuccessful()) {
                     String responseData = response.body().string();
-                    System.out.println("API Response: " + responseData);
+                    listener.onDataReceived(responseData);
                 } else {
-                    System.out.println("Second API Call failed");
+                    listener.onFailure();
                 }
             }
         });
@@ -93,6 +91,12 @@ public class HorseViewModel extends ViewModel {
     // Interface to listen for horseId retrieval events
     public interface OnHorseIdReceivedListener {
         void onHorseIdReceived(String horseId);
+        void onFailure();
+    }
+
+    // Interface to listen for API data retrieval events
+    public interface OnApiDataReceivedListener {
+        void onDataReceived(String data);
         void onFailure();
     }
 
@@ -117,4 +121,5 @@ public class HorseViewModel extends ViewModel {
         return null; // Return null if parsing fails
     }
 }
+
 
