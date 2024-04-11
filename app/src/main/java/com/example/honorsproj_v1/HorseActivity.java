@@ -72,8 +72,14 @@ import okhttp3.Response;
 public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
 
     String horseName;
-    private String firstResponseJson = "{\"horse\":\"Hawkseye View\",\"id_horse\":\"276810\",\"results\":[{\"date\":\"10-04-2024\",\"position\":\"\",\"course\":\"Market Rasen\",\"distance\":\"2m4f\",\"class\":\"5\",\"weight\":\"12-0\",\"starting_price\":\"15\",\"jockey\":\"William Maggs\",\"trainer\":\"Sue Smith\",\"OR\":\"100\",\"race\":\"RASEN ROCKS FEATURING ELLA HENDERSON HANDICAP HURDLE (5)\",\"prize\":\"\\u00a34093\"},{\"date\":\"28-03-2024\",\"position\":\"10\",\"course\":\"Wetherby\",\"distance\":\"2m5f\",\"class\":\"4\",\"weight\":\"10-11\",\"starting_price\":\"34\",\"jockey\":\"Nick Scholfield\",\"trainer\":\"Sue Smith\",\"OR\":\"103\",\"race\":\"FULL CIRCLE SERIES AT PUNCHESTOWN FESTIVAL HANDICAP HURDLE (4)\",\"prize\":\"\\u00a33961\"},{\"date\":\"23-02-2024\",\"position\":\"4\",\"course\":\"Sedgefield\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-9\",\"starting_price\":\"12\",\"jockey\":\"Ross Chapman\",\"trainer\":\"Sue Smith\",\"OR\":\"105\",\"race\":\"LIVE STREAMING AT YEEEHAAA.BET HANDICAP HURDLE (Qualifier) (4)\",\"prize\":\"\\u00a34066\"},{\"date\":\"28-01-2024\",\"position\":\"6\",\"course\":\"Doncaster\",\"distance\":\"2m3f\",\"class\":\"3\",\"weight\":\"11-10\",\"starting_price\":\"41\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"SBK EBF NATIONAL HUNT MAIDEN HURDLE (Qualifier) (3)\",\"prize\":\"\\u00a36317\"},{\"date\":\"01-01-2024\",\"position\":\"2\",\"course\":\"Catterick Bridge\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-5\",\"starting_price\":\"2.62\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"HAPPY NEW YEAR NOVICES HURDLE (4)\",\"prize\":\"\\u00a34356\"},{\"date\":\"19-12-2023\",\"position\":\"3\",\"course\":\"Catterick Bridge\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-0\",\"starting_price\":\"29\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"BEST ODDS GUARANTEED AT VICKERS.BET NOVICES HURDLE (4)\",\"prize\":\"\\u00a34357\"},{\"date\":\"06-10-2023\",\"position\":\"5\",\"course\":\"Hexham\",\"distance\":\"2m\",\"class\":\"4\",\"weight\":\"10-13\",\"starting_price\":\"19\",\"jockey\":\"Sean Quinlan\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"LANGLEY CASTLE AN OUTSTANDING SMALL HOTEL NATIONAL HUNT NOVICES HURDLE (4)\",\"prize\":\"\\u00a34901\"}]}";
-    private String secondResponseJson = "{ \"horse\": \"Dexperado(FR)\", \"id_horse\": \"270546\", \"results\": [ { \"date\": \"10-04-2024\", \"position\": \"2\", \"course\": \"Market Rasen\", \"distance\": \"2m4f\", \"class\": \"5\", \"weight\": \"11-4\", \"starting_price\": \"6.5\", \"jockey\": \"Charlie Hammond\", \"trainer\": \"Nick Kent\", \"OR\": \"90\", \"race\": \"RASEN ROCKS FEATURING ELLA HENDERSON HANDICAP HURDLE (5)\", \"prize\": \"£4093\" }, { \"date\": \"20-03-2024\", \"position\": \"2\", \"course\": \"Market Rasen\", \"distance\": \"2m4f\", \"class\": \"5\", \"weight\": \"11-5\", \"starting_price\": \"7\", \"jockey\": \"Charlie Hammond\", \"trainer\": \"Nick Kent\", \"OR\": \"86\", \"race\": \"FAMILY EXTRAVAGANZA RACEDAY SUNDAY 7th JULY NOVICES LIMITED HANDICAP HURDLE (5)\", \"prize\": \"£7000\" }, { \"date\": \"10-01-2024\", \"position\": \"9\", \"course\": \"Doncaster\", \"distance\": \"2m\", \"class\": \"4\", \"weight\": \"11-4\", \"starting_price\": \"126\", \"jockey\": \"Charlie Hammond\", \"trainer\": \"Nick Kent\", \"OR\": \"\", \"race\": \"DOWNLOAD THE AT THE RACES APP NOVICES HURDLE (4) (D.II)\", \"prize\": \"£4193\" }, { \"date\": \"13-10-2023\", \"position\": \"11\", \"course\": \"Chepstow\", \"distance\": \"2m\", \"class\": \"4\", \"weight\": \"10-13\", \"starting_price\": \"126\", \"jockey\": \"Charlie Hammond\", \"trainer\": \"Nick Kent\", \"OR\": \"\", \"race\": \"CHEPSTOW PLANT INTERNATIONAL NOVICES HURDLE (4)\", \"prize\": \"£4901\" }, { \"date\": \"13-05-2023\", \"position\": \"6\", \"course\": \"Warwick\", \"distance\": \"2m\", \"class\": \"4\", \"weight\": \"10-12\", \"starting_price\": \"34\", \"jockey\": \"Mr Tom Broughton\", \"trainer\": \"Nick Kent\", \"OR\": \"\", \"race\": \"HAPPY HEAVENLY BIRTHDAY FRANK JORDAN NATIONAL HUNT MAIDEN HURDLE (4) (D.I)\", \"prize\": \"£4084\" }, { \"date\": \"06-02-2023\", \"position\": \"6\", \"course\": \"Carlisle\", \"distance\": \"2m1f\", \"class\": \"5\", \"weight\": \"10-9\", \"starting_price\": \"4\", \"jockey\": \"Charlie Hammond\", \"trainer\": \"Nick Kent\", \"OR\": \"\", \"race\": \"LYNE OPEN NATIONAL HUNT FLAT (Qualifier) (5)\", \"prize\": \"£2669\"}]}";
+
+
+
+    private String firstResponseJson = null;
+    private String secondResponseJson = null;
+
+    private String TESTfirstResponseJson = "{\"horse\":\"Hawkseye View\",\"id_horse\":\"276810\",\"results\":[{\"date\":\"10-04-2024\",\"position\":\"\",\"course\":\"Market Rasen\",\"distance\":\"2m4f\",\"class\":\"5\",\"weight\":\"12-0\",\"starting_price\":\"15\",\"jockey\":\"William Maggs\",\"trainer\":\"Sue Smith\",\"OR\":\"100\",\"race\":\"RASEN ROCKS FEATURING ELLA HENDERSON HANDICAP HURDLE (5)\",\"prize\":\"\\u00a34093\"},{\"date\":\"28-03-2024\",\"position\":\"10\",\"course\":\"Wetherby\",\"distance\":\"2m5f\",\"class\":\"4\",\"weight\":\"10-11\",\"starting_price\":\"34\",\"jockey\":\"Nick Scholfield\",\"trainer\":\"Sue Smith\",\"OR\":\"103\",\"race\":\"FULL CIRCLE SERIES AT PUNCHESTOWN FESTIVAL HANDICAP HURDLE (4)\",\"prize\":\"\\u00a33961\"},{\"date\":\"23-02-2024\",\"position\":\"4\",\"course\":\"Sedgefield\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-9\",\"starting_price\":\"12\",\"jockey\":\"Ross Chapman\",\"trainer\":\"Sue Smith\",\"OR\":\"105\",\"race\":\"LIVE STREAMING AT YEEEHAAA.BET HANDICAP HURDLE (Qualifier) (4)\",\"prize\":\"\\u00a34066\"},{\"date\":\"28-01-2024\",\"position\":\"6\",\"course\":\"Doncaster\",\"distance\":\"2m3f\",\"class\":\"3\",\"weight\":\"11-10\",\"starting_price\":\"41\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"SBK EBF NATIONAL HUNT MAIDEN HURDLE (Qualifier) (3)\",\"prize\":\"\\u00a36317\"},{\"date\":\"01-01-2024\",\"position\":\"2\",\"course\":\"Catterick Bridge\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-5\",\"starting_price\":\"2.62\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"HAPPY NEW YEAR NOVICES HURDLE (4)\",\"prize\":\"\\u00a34356\"},{\"date\":\"19-12-2023\",\"position\":\"3\",\"course\":\"Catterick Bridge\",\"distance\":\"2m3f\",\"class\":\"4\",\"weight\":\"11-0\",\"starting_price\":\"29\",\"jockey\":\"Tom Midgley\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"BEST ODDS GUARANTEED AT VICKERS.BET NOVICES HURDLE (4)\",\"prize\":\"\\u00a34357\"},{\"date\":\"06-10-2023\",\"position\":\"5\",\"course\":\"Hexham\",\"distance\":\"2m\",\"class\":\"4\",\"weight\":\"10-13\",\"starting_price\":\"19\",\"jockey\":\"Sean Quinlan\",\"trainer\":\"Sue Smith\",\"OR\":\"\",\"race\":\"LANGLEY CASTLE AN OUTSTANDING SMALL HOTEL NATIONAL HUNT NOVICES HURDLE (4)\",\"prize\":\"\\u00a34901\"}]}";
+    private String TESTsecondResponseJson = "{ \"horse\": \"Dexperado(FR)\", \"id_horse\": \"270546\", \"results\": [ { \"date\": \"10-04-2024\", \"position\": \"2\", \"course\": \"Market Rasen\", \"distance\": \"2m4f\", \"class\": \"5\", \"weight\": \"11-4\", \"starting_price\": \"6.5\", \"jockey\": \"Charlie Hammond\", \"trainer\": \"Nick Kent\", \"OR\": \"90\", \"race\": \"RASEN ROCKS FEATURING ELLA HENDERSON HANDICAP HURDLE (5)\", \"prize\": \"£4093\" }, { \"date\": \"20-03-2024\", \"position\": \"2\", \"course\": \"Market Rasen\", \"distance\": \"2m4f\", \"class\": \"5\", \"weight\": \"11-5\", \"starting_price\": \"7\", \"jockey\": \"Charlie Hammond\", \"trainer\": \"Nick Kent\", \"OR\": \"86\", \"race\": \"FAMILY EXTRAVAGANZA RACEDAY SUNDAY 7th JULY NOVICES LIMITED HANDICAP HURDLE (5)\", \"prize\": \"£7000\" }, { \"date\": \"10-01-2024\", \"position\": \"9\", \"course\": \"Doncaster\", \"distance\": \"2m\", \"class\": \"4\", \"weight\": \"11-4\", \"starting_price\": \"126\", \"jockey\": \"Charlie Hammond\", \"trainer\": \"Nick Kent\", \"OR\": \"\", \"race\": \"DOWNLOAD THE AT THE RACES APP NOVICES HURDLE (4) (D.II)\", \"prize\": \"£4193\" }, { \"date\": \"13-10-2023\", \"position\": \"11\", \"course\": \"Chepstow\", \"distance\": \"2m\", \"class\": \"4\", \"weight\": \"10-13\", \"starting_price\": \"126\", \"jockey\": \"Charlie Hammond\", \"trainer\": \"Nick Kent\", \"OR\": \"\", \"race\": \"CHEPSTOW PLANT INTERNATIONAL NOVICES HURDLE (4)\", \"prize\": \"£4901\" }, { \"date\": \"13-05-2023\", \"position\": \"6\", \"course\": \"Warwick\", \"distance\": \"2m\", \"class\": \"4\", \"weight\": \"10-12\", \"starting_price\": \"34\", \"jockey\": \"Mr Tom Broughton\", \"trainer\": \"Nick Kent\", \"OR\": \"\", \"race\": \"HAPPY HEAVENLY BIRTHDAY FRANK JORDAN NATIONAL HUNT MAIDEN HURDLE (4) (D.I)\", \"prize\": \"£4084\" }, { \"date\": \"06-02-2023\", \"position\": \"6\", \"course\": \"Carlisle\", \"distance\": \"2m1f\", \"class\": \"5\", \"weight\": \"10-9\", \"starting_price\": \"4\", \"jockey\": \"Charlie Hammond\", \"trainer\": \"Nick Kent\", \"OR\": \"\", \"race\": \"LYNE OPEN NATIONAL HUNT FLAT (Qualifier) (5)\", \"prize\": \"£2669\"}]}";
 
     String time;
     @Override
@@ -171,32 +177,32 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
         // Initialize the HorseViewModel
         HorseViewModel horseViewModel = new ViewModelProvider(this).get(HorseViewModel.class);
 
-//        horseViewModel.getHorseId(horseName, new HorseViewModel.OnHorseIdReceivedListener() {
-//            @Override
-//            public void onHorseIdReceived(String horseId) {
-//                // Handle the received horse ID here
-//                Log.d("HorseComparison", "Horse id number is : " + horseId);
-//                horseViewModel.queryApiWithHorseId(horseId, new HorseViewModel.OnApiDataReceivedListener() {
-//                    @Override
-//                    public void onDataReceived(String data) {
-//                        // Handle API data received here
-//                        Log.d("HorseComparison", "API Response: " + data);
-//                        //firstResponseJson = data;
-//                    }
-//
-//                    @Override
-//                    public void onFailure() {
-//                        // Handle failure here
-//                        Log.d("HorseComparison", "Second API Call failed");
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onFailure() {
-//                // Handle failure here
-//            }
-//        });
+        horseViewModel.getHorseId(horseName, new HorseViewModel.OnHorseIdReceivedListener() {
+            @Override
+            public void onHorseIdReceived(String horseId) {
+                // Handle the received horse ID here
+                Log.d("HorseComparison", "Horse id number is : " + horseId);
+                horseViewModel.queryApiWithHorseId(horseId, new HorseViewModel.OnApiDataReceivedListener() {
+                    @Override
+                    public void onDataReceived(String data) {
+                        // Handle API data received here
+                        Log.d("HorseComparison", "API Response: " + data);
+                        firstResponseJson = data;
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        // Handle failure here
+                        Log.d("HorseComparison", "Second API Call failed");
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure() {
+                // Handle failure here
+            }
+        });
 
 
         form1[0] = extractHorseForm(horseName);
@@ -290,6 +296,7 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 String selectedHorseWithNumber = (String) parent.getItemAtPosition(position);
                 // Split the string based on space
                 String[] parts = selectedHorseWithNumber.split(" ", 2);
@@ -304,32 +311,36 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
                 Log.d("HorseComparison", "FORM IS BAGGINGz FIXED " + parseForm(form2[0]));
                 form2[0] = parseForm(form2[0]).toString();
                 // Make the API call again with the selected horse
-//                horseViewModel.getHorseId(horseName, new HorseViewModel.OnHorseIdReceivedListener() {
-//                    @Override
-//                    public void onHorseIdReceived(String horseId) {
-//                        // Handle the received horse ID here
-//                        Log.d("HorseComparison", "Horse id number is : " + horseId);
-//                        horseViewModel.queryApiWithHorseId(horseId, new HorseViewModel.OnApiDataReceivedListener() {
-//                            @Override
-//                            public void onDataReceived(String data) {
-//                                // Handle API data received here
-//                                Log.d("HorseComparison", "API Response: " + data);
-//                                //secondResponseJson = data;
-//                            }
-//
-//                            @Override
-//                            public void onFailure() {
-//                                // Handle failure here
-//                                Log.d("HorseComparison", "Second API Call failed");
-//                            }
-//                        });
-//                    }
-//
-//                    @Override
-//                    public void onFailure() {
-//                        // Handle failure here
-//                    }
-//                });
+                Log.d("HorseComparison", "CLICKED");
+                Log.d("HorseComparison HORSE NAME IS", horseName);
+                Log.d("WHEREAS SELECTED HORSE IS", selectedHorse);
+                horseViewModel.getHorseId(selectedHorse, new HorseViewModel.OnHorseIdReceivedListener() {
+                    @Override
+                    public void onHorseIdReceived(String horseId) {
+                        // Handle the received horse ID here
+                        Log.d("HorseComparison", "Horse id number is : " + horseId);
+                        horseViewModel.queryApiWithHorseId(horseId, new HorseViewModel.OnApiDataReceivedListener() {
+                            @Override
+                            public void onDataReceived(String data) {
+                                // Handle API data received here
+                                Log.d("HorseComparison", "API Response: " + data);
+                                secondResponseJson = data;
+                                testMethod();
+                            }
+
+                            @Override
+                            public void onFailure() {
+                                // Handle failure here
+                                Log.d("HorseComparison", "Second API Call failed");
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        // Handle failure here
+                    }
+                });
 
 
                 // Initialize lists to store forms and horse names
@@ -355,140 +366,69 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
                     // Handle the case when forms or horseNames is empty
                 }
 
-                Map<String, Map<String, List<Integer>>> horseData = parseHorseData(firstResponseJson, secondResponseJson);
-
-                Map<String, Map<String, Double>> averagePositions = calculateAveragePositions(horseData);
-
-                for (Map.Entry<String, Map<String, Double>> horseEntry : averagePositions.entrySet()) {
-                    System.out.println("Horse: " + horseEntry.getKey());
-                    for (Map.Entry<String, Double> classEntry : horseEntry.getValue().entrySet()) {
-                        System.out.println("Class: " + classEntry.getKey() + ", Average Position: " + classEntry.getValue());
-                    }
-                    System.out.println();
-                }
-
-                BarChart stackedBarChart =  inflatedLayout.findViewById(R.id.stackedBarChart);
-
-                // Initialize lists to hold horse names, race classes, and average positions
-                List<String> horseNamesForChart = new ArrayList<>();
-                List<String> classNames = new ArrayList<>();
-                List<Double> avgPositions = new ArrayList<>();
-
-                // Extract data from the averagePositions map
-                for (Map.Entry<String, Map<String, Double>> horseEntry : averagePositions.entrySet()) {
-                    String horseName = horseEntry.getKey();
-                    for (Map.Entry<String, Double> classEntry : horseEntry.getValue().entrySet()) {
-                        String raceClass = classEntry.getKey();
-                        double averagePosition = classEntry.getValue();
-
-                        // Add data to the lists
-                        horseNamesForChart.add(horseName);
-                        classNames.add(raceClass);
-                        avgPositions.add(averagePosition);
-                    }
-                }
-
-                // Check for mismatched class names and remove corresponding entries
-                Set<String> uniqueClassNames = new HashSet<>(classNames); // Get unique class names
-
-                if (uniqueClassNames.size() > 1) { // Check if there are multiple unique class names
-                    // Create lists to store filtered data
-                    List<String> filteredHorseNames = new ArrayList<>();
-                    List<Double> filteredAvgPositions = new ArrayList<>();
-                    List<String> filteredClassNames = new ArrayList<>();
-
-                    // Iterate through classNames list and remove entries with non-matching class names
-                    for (int i = 0; i < classNames.size(); i++) {
-                        String className = classNames.get(i);
-                        if (uniqueClassNames.size() == 1 || Collections.frequency(classNames, className) > 1) { // Check if class name is repeated or if all class names are the same
-                            filteredHorseNames.add(horseNamesForChart.get(i));
-                            filteredAvgPositions.add(avgPositions.get(i));
-                            filteredClassNames.add(className);
-                        }
-                    }
-
-                    // Update original lists with filtered data
-                    horseNamesForChart = filteredHorseNames;
-                    avgPositions = filteredAvgPositions;
-                    classNames = filteredClassNames;
-                }
-
-// Now you can proceed with plotting the data on the bar chart
-
-
-                System.out.println("Class NAMES ARE : " + classNames);
-                System.out.println("Horse NAMES ARE : " + horseNamesForChart);
-                System.out.println("avgPositions NAMES ARE : " + avgPositions);
-
-// Create entries for the bar chart
-                List<BarEntry> entries = new ArrayList<>();
-                for (int i = 0; i < horseNamesForChart.size(); i++) {
-                    entries.add(new BarEntry(i, avgPositions.get(i).floatValue()));
-                }
-
-// Create a BarDataSet using the entries
-                BarDataSet dataSet = new BarDataSet(entries, "Average Position");
-                dataSet.setColor(Color.rgb(255, 0, 0)); // Set color for the bars
-
-// Create a BarData object and set it to the chart
-                BarData data = new BarData(dataSet);
-
-// Set data to the chart
-                stackedBarChart.setData(data);
-
-// Set the x-axis labels (horse names)
-                XAxis xAxis = stackedBarChart.getXAxis();
-                xAxis.setValueFormatter(new IndexAxisValueFormatter(horseNamesForChart)); // Set the horse names as x-axis labels
-
-// Customize the chart as needed
-                stackedBarChart.getDescription().setEnabled(false); // Disable description
-                stackedBarChart.setDrawValueAboveBar(true); // Draw values above bars
-                stackedBarChart.invalidate(); // Refresh the chart
 
 
 
             }//on item click end
+
+
         });
+
+
 
     }
 
 
 
 
-
-
-    public static Map<String, Map<String, List<Integer>>> parseHorseData(String firstResponseJson, String secondResponseJson) {
-        Map<String, Map<String, List<Integer>>> horseData = new HashMap<>();
-
+    public void testMethod() {
+        Map<String, Double> horseAverageSP = new HashMap<>();
         try {
-            parseHorseJson(firstResponseJson, horseData);
-            parseHorseJson(secondResponseJson, horseData);
+            parseHorseJson(firstResponseJson, horseAverageSP);
+            System.out.println("FIRST DONE DOING SECOND");
+            parseHorseJson(secondResponseJson, horseAverageSP);
+            System.out.println("SECOND DONE");
+
+            // Print the parsed horse data with average SP
+            for (Map.Entry<String, Double> entry : horseAverageSP.entrySet()) {
+                System.out.println("Horse: " + entry.getKey() + ", Average SP: " + entry.getValue());
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }//ILLUSTRATE STARTING PRICE AND THEN PLACING
 
-        return horseData;
-    }
 
-    public static void parseHorseJson(String horseJson, Map<String, Map<String, List<Integer>>> horseData) throws JSONException {
+
+    public static void parseHorseJson(String horseJson, Map<String, Double> horseAverageSP) throws JSONException {
+        System.out.println("RUNNING BLUD");
         JSONObject jsonObject = new JSONObject(horseJson);
         String horseName = jsonObject.getString("horse");
 
         JSONArray resultsArray = jsonObject.getJSONArray("results");
-        Map<String, List<Integer>> classData = horseData.getOrDefault(horseName, new HashMap<>());
+        double totalSP = 0.0;
+        int numRaces = 0;
 
         for (int i = 0; i < resultsArray.length(); i++) {
             JSONObject resultObject = resultsArray.getJSONObject(i);
-            String raceClass = resultObject.getString("class");
-            String position = resultObject.getString("position");
+            String startingPriceString = resultObject.optString("starting_price", "0.0");
 
-            List<Integer> positions = classData.getOrDefault(raceClass, new ArrayList<>());
-            positions.add(parsePosition(position));
-            classData.put(raceClass, positions);
+            // Convert starting price string to double
+            double startingPrice = Double.parseDouble(startingPriceString);
+
+            // Update total SP and number of races
+            totalSP += startingPrice;
+            numRaces++;
         }
 
-        horseData.put(horseName, classData);
+        // Calculate average SP for the horse
+        double averageSP = numRaces > 0 ? totalSP / numRaces : 0.0;
+
+        // Add horse name and average SP to the map
+        horseAverageSP.put(horseName, averageSP);
     }
+
+
 
     public static double calculateAverage(List<Integer> values) {
         if (values.isEmpty()) return 0;
@@ -526,6 +466,7 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
         if (positionString.isEmpty()) {
             return -1; // If position is empty, indicating the horse didn't finish the race
         } else {
+            System.out.println("DODGY STRING IS" + positionString);
             return Integer.parseInt(positionString);
         }
     }
