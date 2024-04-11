@@ -388,6 +388,38 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
                     }
                 }
 
+                // Check for mismatched class names and remove corresponding entries
+                Set<String> uniqueClassNames = new HashSet<>(classNames); // Get unique class names
+
+                if (uniqueClassNames.size() > 1) { // Check if there are multiple unique class names
+                    // Create lists to store filtered data
+                    List<String> filteredHorseNames = new ArrayList<>();
+                    List<Double> filteredAvgPositions = new ArrayList<>();
+                    List<String> filteredClassNames = new ArrayList<>();
+
+                    // Iterate through classNames list and remove entries with non-matching class names
+                    for (int i = 0; i < classNames.size(); i++) {
+                        String className = classNames.get(i);
+                        if (uniqueClassNames.size() == 1 || Collections.frequency(classNames, className) > 1) { // Check if class name is repeated or if all class names are the same
+                            filteredHorseNames.add(horseNamesForChart.get(i));
+                            filteredAvgPositions.add(avgPositions.get(i));
+                            filteredClassNames.add(className);
+                        }
+                    }
+
+                    // Update original lists with filtered data
+                    horseNamesForChart = filteredHorseNames;
+                    avgPositions = filteredAvgPositions;
+                    classNames = filteredClassNames;
+                }
+
+// Now you can proceed with plotting the data on the bar chart
+
+
+                System.out.println("Class NAMES ARE : " + classNames);
+                System.out.println("Horse NAMES ARE : " + horseNamesForChart);
+                System.out.println("avgPositions NAMES ARE : " + avgPositions);
+
 // Create entries for the bar chart
                 List<BarEntry> entries = new ArrayList<>();
                 for (int i = 0; i < horseNamesForChart.size(); i++) {
@@ -419,6 +451,7 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
         });
 
     }
+
 
 
 
@@ -496,9 +529,6 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
             return Integer.parseInt(positionString);
         }
     }
-
-
-
 
 
 
