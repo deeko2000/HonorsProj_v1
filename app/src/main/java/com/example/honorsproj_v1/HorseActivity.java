@@ -355,29 +355,77 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
                     // Handle the case when forms or horseNames is empty
                 }
 
-                Map<String, Map<String, Map<Integer, String>>> horseData = parseHorseData(firstResponseJson, secondResponseJson);
+                Map<String, Map<String, List<Integer>>> horseData = parseHorseData(firstResponseJson, secondResponseJson);
 
-                // Printing the parsed data
-                for (Map.Entry<String, Map<String, Map<Integer, String>>> entry : horseData.entrySet()) {
-                    System.out.println("Horse: " + entry.getKey());
-                    Map<String, Map<Integer, String>> raceData = entry.getValue();
-                    for (Map.Entry<String, Map<Integer, String>> raceEntry : raceData.entrySet()) {
-                        System.out.println("Race: " + raceEntry.getKey());
-                        Map<Integer, String> positionDistanceMap = raceEntry.getValue();
-                        for (Map.Entry<Integer, String> positionDistanceEntry : positionDistanceMap.entrySet()) {
-                            System.out.println("Position: " + positionDistanceEntry.getKey() + ", Distance: " + positionDistanceEntry.getValue());
-                        }
+                Map<String, Map<String, Double>> averagePositions = calculateAveragePositions(horseData);
+
+                for (Map.Entry<String, Map<String, Double>> horseEntry : averagePositions.entrySet()) {
+                    System.out.println("Horse: " + horseEntry.getKey());
+                    for (Map.Entry<String, Double> classEntry : horseEntry.getValue().entrySet()) {
+                        System.out.println("Class: " + classEntry.getKey() + ", Average Position: " + classEntry.getValue());
+                    }
+                    System.out.println();
+                }
+
+                BarChart stackedBarChart =  inflatedLayout.findViewById(R.id.stackedBarChart);
+
+                // Initialize lists to hold horse names, race classes, and average positions
+                List<String> horseNamesForChart = new ArrayList<>();
+                List<String> classNames = new ArrayList<>();
+                List<Double> avgPositions = new ArrayList<>();
+
+                // Extract data from the averagePositions map
+                for (Map.Entry<String, Map<String, Double>> horseEntry : averagePositions.entrySet()) {
+                    String horseName = horseEntry.getKey();
+                    for (Map.Entry<String, Double> classEntry : horseEntry.getValue().entrySet()) {
+                        String raceClass = classEntry.getKey();
+                        double averagePosition = classEntry.getValue();
+
+                        // Add data to the lists
+                        horseNamesForChart.add(horseName);
+                        classNames.add(raceClass);
+                        avgPositions.add(averagePosition);
                     }
                 }
 
+// Create entries for the bar chart
+                List<BarEntry> entries = new ArrayList<>();
+                for (int i = 0; i < horseNamesForChart.size(); i++) {
+                    entries.add(new BarEntry(i, avgPositions.get(i).floatValue()));
+                }
 
-            }
+// Create a BarDataSet using the entries
+                BarDataSet dataSet = new BarDataSet(entries, "Average Position");
+                dataSet.setColor(Color.rgb(255, 0, 0)); // Set color for the bars
+
+// Create a BarData object and set it to the chart
+                BarData data = new BarData(dataSet);
+
+// Set data to the chart
+                stackedBarChart.setData(data);
+
+// Set the x-axis labels (horse names)
+                XAxis xAxis = stackedBarChart.getXAxis();
+                xAxis.setValueFormatter(new IndexAxisValueFormatter(horseNamesForChart)); // Set the horse names as x-axis labels
+
+// Customize the chart as needed
+                stackedBarChart.getDescription().setEnabled(false); // Disable description
+                stackedBarChart.setDrawValueAboveBar(true); // Draw values above bars
+                stackedBarChart.invalidate(); // Refresh the chart
+
+
+
+            }//on item click end
         });
 
     }
 
-    public static Map<String, Map<String, Map<Integer, String>>> parseHorseData(String firstResponseJson, String secondResponseJson) {
-        Map<String, Map<String, Map<Integer, String>>> horseData = new HashMap<>();
+
+
+
+
+    public static Map<String, Map<String, List<Integer>>> parseHorseData(String firstResponseJson, String secondResponseJson) {
+        Map<String, Map<String, List<Integer>>> horseData = new HashMap<>();
 
         try {
             parseHorseJson(firstResponseJson, horseData);
@@ -389,28 +437,57 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
         return horseData;
     }
 
-
-    public static void parseHorseJson(String horseJson, Map<String, Map<String, Map<Integer, String>>> horseData) throws JSONException {
+    public static void parseHorseJson(String horseJson, Map<String, Map<String, List<Integer>>> horseData) throws JSONException {
         JSONObject jsonObject = new JSONObject(horseJson);
         String horseName = jsonObject.getString("horse");
 
         JSONArray resultsArray = jsonObject.getJSONArray("results");
-        Map<String, Map<Integer, String>> raceData = horseData.getOrDefault(horseName, new HashMap<>());
+        Map<String, List<Integer>> classData = horseData.getOrDefault(horseName, new HashMap<>());
 
         for (int i = 0; i < resultsArray.length(); i++) {
             JSONObject resultObject = resultsArray.getJSONObject(i);
-            String raceName = resultObject.getString("race");
-            String position = resultObject.getString("position");
-            String distance = resultObject.getString("distance");
             String raceClass = resultObject.getString("class");
+            String position = resultObject.getString("position");
 
-            Map<Integer, String> positionDistanceMap = raceData.getOrDefault(raceName, new HashMap<>());
-            positionDistanceMap.put(parsePosition(position), distance + "-" + raceClass);
-            raceData.put(raceName, positionDistanceMap);
+            List<Integer> positions = classData.getOrDefault(raceClass, new ArrayList<>());
+            positions.add(parsePosition(position));
+            classData.put(raceClass, positions);
         }
 
-        horseData.put(horseName, raceData);
+        horseData.put(horseName, classData);
     }
+
+    public static double calculateAverage(List<Integer> values) {
+        if (values.isEmpty()) return 0;
+        double sum = 0;
+        for (int value : values) {
+            sum += value;
+        }
+        return sum / values.size();
+    }
+
+    public static Map<String, Map<String, Double>> calculateAveragePositions(Map<String, Map<String, List<Integer>>> horseData) {
+        Map<String, Map<String, Double>> averagePositions = new HashMap<>();
+
+        for (Map.Entry<String, Map<String, List<Integer>>> horseEntry : horseData.entrySet()) {
+            Map<String, Double> classAverage = new HashMap<>();
+            for (Map.Entry<String, List<Integer>> classEntry : horseEntry.getValue().entrySet()) {
+                double average = calculateAverage(classEntry.getValue());
+                // Check if the average is not -1
+                if (average != -1) {
+                    classAverage.put(classEntry.getKey(), average);
+                }
+            }
+            // Add only if there are non -1 averages
+            if (!classAverage.isEmpty()) {
+                averagePositions.put(horseEntry.getKey(), classAverage);
+            }
+        }
+
+        return averagePositions;
+    }
+
+
 
     public static int parsePosition(String positionString) {
         if (positionString.isEmpty()) {
@@ -419,6 +496,10 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
             return Integer.parseInt(positionString);
         }
     }
+
+
+
+
 
 
     // Method to extract the form of a horse from response_data.json
