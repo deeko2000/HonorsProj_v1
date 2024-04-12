@@ -27,7 +27,7 @@ public class HorseViewModel extends ViewModel {
         Request request = new Request.Builder()
                 .url("https://horse-racing.p.rapidapi.com/query-horses?name=" + horseName)
                 .get()
-                .addHeader("X-RapidAPI-Key", "8fe7c2402amshc17b2704e4b43eap1be3e2jsncc376ccdb959")
+                .addHeader("X-RapidAPI-Key", "d70a23cef9mshfe1d96275f11100p155f05jsna9862e3a7d1c")
                 .addHeader("X-RapidAPI-Host", "horse-racing.p.rapidapi.com")
                 .build();
 
@@ -62,7 +62,7 @@ public class HorseViewModel extends ViewModel {
         Request request = new Request.Builder()
                 .url("https://horse-racing.p.rapidapi.com/horse-stats/" + horseId) // Use the horseId from the first API call
                 .get()
-                .addHeader("X-RapidAPI-Key", "8fe7c2402amshc17b2704e4b43eap1be3e2jsncc376ccdb959")
+                .addHeader("X-RapidAPI-Key", "d70a23cef9mshfe1d96275f11100p155f05jsna9862e3a7d1c")
                 .addHeader("X-RapidAPI-Host", "horse-racing.p.rapidapi.com")
                 .build();
 

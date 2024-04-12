@@ -325,7 +325,8 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
                                 // Handle API data received here
                                 Log.d("HorseComparison", "API Response: " + data);
                                 secondResponseJson = data;
-                                testMethod();
+                                populateBarchart(testMethod());
+
                             }
 
                             @Override
@@ -367,8 +368,6 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
                 }
 
 
-
-
             }//on item click end
 
 
@@ -378,10 +377,72 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
 
     }
 
+    public void populateBarchart(Map<String, Double> temp){
+        // Assuming you have a BarChart object
+        BarChart stackedBarChart = findViewById(R.id.stackedBarChart);
+
+        // Create a list of BarEntry objects to represent the data points
+        List<BarEntry> entries = new ArrayList<>();
+        List<String> labels = new ArrayList<>(); // List to hold custom labels
+        int index = 0;
+        for (Map.Entry<String, Double> entry : temp.entrySet()) {
+            entries.add(new BarEntry(index++, entry.getValue().floatValue())); // Don't set label here
+            labels.add(entry.getKey()); // Add label to the list
+        }
+
+        // Create a BarDataSet to hold the data and customize its appearance if needed
+        BarDataSet dataSet = new BarDataSet(entries, null); // Set label to null initially
+
+        dataSet.setColors(new int[] {Color.BLUE, Color.RED}); // Set different colors for bars
+
+        // Set text below each bar
+        dataSet.setValueTextSize(10f);
+        dataSet.setValueTextColor(Color.BLACK);
+
+        // Create a BarData object and set the data set(s) to it
+        BarData barData = new BarData(dataSet);
+
+        // Set any additional configuration for the bar chart if needed
+        // For example, you can set animation, description, etc.
+
+        // Disable description label
+        stackedBarChart.getDescription().setEnabled(false);
+
+        // Disable legend
+        stackedBarChart.getLegend().setEnabled(false);
+
+        // Set the BarData to your BarChart
+        stackedBarChart.setData(barData);
+
+        // Finally, invalidate the chart to refresh it
+        stackedBarChart.invalidate();
+
+        TextView blue = findViewById(R.id.bluebox);
+        TextView red = findViewById(R.id.redbox);
+
+        Log.d("LABELS ARE", labels.toString());
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView blue = findViewById(R.id.bluebox);
+                TextView red = findViewById(R.id.redbox);
+
+                Log.d("LABELS ARE", labels.toString());
+
+                blue.setText(" " + labels.get(1));
+                red.setText(" " + labels.get(0));
+            }
+        });
+
+    }
 
 
 
-    public void testMethod() {
+
+
+
+    public Map<String, Double> testMethod() {
         Map<String, Double> horseAverageSP = new HashMap<>();
         try {
             parseHorseJson(firstResponseJson, horseAverageSP);
@@ -396,6 +457,7 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return horseAverageSP;
     }//ILLUSTRATE STARTING PRICE AND THEN PLACING
 
 
@@ -458,17 +520,6 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
         }
 
         return averagePositions;
-    }
-
-
-
-    public static int parsePosition(String positionString) {
-        if (positionString.isEmpty()) {
-            return -1; // If position is empty, indicating the horse didn't finish the race
-        } else {
-            System.out.println("DODGY STRING IS" + positionString);
-            return Integer.parseInt(positionString);
-        }
     }
 
 
