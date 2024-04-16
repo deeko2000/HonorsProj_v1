@@ -19,8 +19,6 @@ public class MeetingActivity extends AppCompatActivity {
     String[] horses = {"Horse 1", "Horse 2", "Horse 3", "Horse 4", "Horse 5", "Horse 6", "Horse 7", "Horse 8", "Horse 9", "Horse 10", "Horse 11"};
 
     AutoCompleteTextView autoCompleteTextView1;
-
-
     ArrayAdapter<String> adapterRaces;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +51,7 @@ public class MeetingActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-//                // Retrieve the clicked item
+               // Retrieve the clicked item
                 String selectedHorse = (String) adapterView.getItemAtPosition(position);
 
                 // Start a new activity, passing selectedHorse data to it

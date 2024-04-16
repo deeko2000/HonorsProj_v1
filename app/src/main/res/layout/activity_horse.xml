@@ -5,16 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
-
-
-        <!-- LineChart -->
         <RelativeLayout
             android:id="@+id/relLay"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <!-- Button -->
+
             <Button
                 android:id="@+id/bannerbtn"
                 android:layout_width="match_parent"

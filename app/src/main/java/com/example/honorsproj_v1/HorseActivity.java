@@ -40,7 +40,7 @@ public class HorseActivity extends AppCompatActivity {
         // Generate random data for RadarChart
         ArrayList<RadarEntry> radarEntries = new ArrayList<>();
         Random random = new Random();
-        for (int i = 0; i < 5; i++) { // Add 5 random data points
+        for (int i = 0; i < 5; i++) { // Add random data
             float value = random.nextFloat() * 100; // Random value between 0 and 100
             radarEntries.add(new RadarEntry(value));
         }
@@ -51,9 +51,9 @@ public class HorseActivity extends AppCompatActivity {
 
         // Create RadarData object and set RadarDataSet to it
         RadarData radarData = new RadarData(radarDataSet);
-
-        // Set RadarData to RadarChart
         radarChart.setData(radarData);
         radarChart.invalidate();
     }
+
+
 }
