@@ -48,18 +48,18 @@ public class MeetingViewModel extends AndroidViewModel {
 
 
     private String getSharedPreferencesKey() {
-        return "MeetingViewModelPrefs"; // Unique key for MeetingViewModel
+        return "MeetingViewModelPrefs";
     }
 
     void makeApiCallAndSaveToFile() {
         // Check if data has already been saved today
         if (isDataSavedToday()) {
             Log.d("MeetingViewModel", "Data has already been saved today");
-            // If data has already been saved today return and don't do the following
+
             return;
         }
 
-        // If data has not been saved today, make the API call
+        // If data has not been saved make the API call
         OkHttpClient client = new OkHttpClient();
 
         // Get the current date
@@ -92,7 +92,7 @@ public class MeetingViewModel extends AndroidViewModel {
                     // Handle successful response
                     String responseData = response.body().string();
                     saveDataToFile(responseData); // Save data to file
-                    printFileContents(); // Update horsesLiveData after saving data
+                    printFileContents();
                 } else {
                     // Handle error response
                     Log.d("MeetingViewModel", "onResponse: Failure");
@@ -177,33 +177,33 @@ public class MeetingViewModel extends AndroidViewModel {
 
                     List<String> horseNames = new ArrayList<>();
 
-                    // Iterate through each runner in the race meeting
+
                     for (int j = 0; j < runnersArray.length(); j++) {
                         JSONObject runnerObject = runnersArray.getJSONObject(j);
                         String horseName = runnerObject.getString("horse");
                         horseNames.add(horseName);
                     }
 
-                    // Add the list of horse names to the map with converted off time as key
+
                     horseMap.put(convertedTime, horseNames);
                 }
 
-                // Log the contents of the HashMap
+
                 for (Map.Entry<String, List<String>> entry : horseMap.entrySet()) {
                     String time = entry.getKey();
                     List<String> horses = entry.getValue();
-                    //Log.d("MeetingViewModel", "Key: " + time); // Log key
+
                     for (String horse : horses) {
-                        //Log.d("MeetingViewModel", "Horse: " + horse); // Log each horse associated with the key
+
                     }
                 }
 
-                // Update LiveData with the new horseMap
+
                 horsesLiveData.postValue(horseMap);
             } catch (JSONException e) {
                 e.printStackTrace();
                 Log.d("MeetingViewModel", "printFileContents: Failure");
-                // Handle error
+
             }
         }
     }
@@ -235,16 +235,6 @@ public class MeetingViewModel extends AndroidViewModel {
             e.printStackTrace();
         }
         return stringBuilder.toString();
-    }
-
-    void clearSavedData() {
-        SharedPreferences preferences = applicationContext.getSharedPreferences(getSharedPreferencesKey(), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.remove("Year");
-        editor.remove("Month");
-        editor.remove("Day");
-        editor.apply();
-        Log.d("MeetingViewModel", "Saved data cleared");
     }
 
     // Method to convert time to 24-hour format

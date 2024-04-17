@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Map;
 
 public class MainViewModel extends AndroidViewModel {
-    //variables
     private MutableLiveData<String> apiResponseLiveData = new MutableLiveData<>();
     private MutableLiveData<Map<String, List<String>>> coursesLiveData = new MutableLiveData<>();
 
@@ -55,8 +54,7 @@ public class MainViewModel extends AndroidViewModel {
     void makeApiCallAndSaveToFile() {
         // Check if data has already been saved today
         if (isDataSavedToday()) {
-            Log.d("MainViewModel", "Data has already been saved today");
-            // If data has already been saved today return and dont do following
+            Log.d("d", "Data has already been saved today");
             return;
         }
 
@@ -71,7 +69,6 @@ public class MainViewModel extends AndroidViewModel {
 
         // Build the URL with the current date
         String url = "https://horse-racing.p.rapidapi.com/racecards?date=" + year + "-" + month + "-" + day; //api call with todays date
-        String testurl = "https://horse-racing.p.rapidapi.com/racecards?date=2024-03-15"; //testing url
 
         Request request = new Request.Builder() //Api call using okhttp
                 .url(url)
@@ -93,7 +90,7 @@ public class MainViewModel extends AndroidViewModel {
                     // Handle successful response
                     String responseData = response.body().string();
                     saveDataToFile(responseData); // Save data to file
-                    printFileContents(); // Update coursesLiveData after saving data
+                    printFileContents();
                 } else {
                     // Handle error response
                     Log.d(TAG, "onResponse: Failure");
@@ -122,9 +119,9 @@ public class MainViewModel extends AndroidViewModel {
 
 
     private void saveDataToFile(String data) {
-        // Save the data to file
 
-        // Save the current date to SharedPreferences
+
+
         Calendar calendar = Calendar.getInstance();
         int todayYear = calendar.get(Calendar.YEAR);
         int todayMonth = calendar.get(Calendar.MONTH);
@@ -144,7 +141,7 @@ public class MainViewModel extends AndroidViewModel {
                 file.createNewFile();
             }
 
-            // Write data to the file
+
             FileWriter writer = new FileWriter(file);
             writer.write(data);
             writer.flush();
@@ -152,12 +149,11 @@ public class MainViewModel extends AndroidViewModel {
         } catch (IOException e) {
             e.printStackTrace();
             Log.d(TAG, "saveDataToFile: Failure");
-            // Handle file write error
         }
     }
 
 
-    void printFileContents() { //Prints file contents and extracts courses
+    void printFileContents() {
         String fileContents = readFileContents();
         Log.d("MainViewModel", "File contents: " + fileContents);
 
@@ -170,9 +166,9 @@ public class MainViewModel extends AndroidViewModel {
                 String course = jsonObject.getString("course");
                 String dateTime = jsonObject.getString("date");
 
-                // Extracting only the time part from the datetime string
+
                 String time = dateTime.substring(dateTime.indexOf(' ') + 1, dateTime.lastIndexOf(':'));
-                // Add course to map if it doesn't exist, otherwise add time to its list
+
                 if (!coursesMap.containsKey(course)) {
                     List<String> timesList = new ArrayList<>();
                     timesList.add(time);
@@ -182,25 +178,25 @@ public class MainViewModel extends AndroidViewModel {
                 }
             }
 
-            // Log the contents of the HashMap
+
             for (Map.Entry<String, List<String>> entry : coursesMap.entrySet()) {
                 String course = entry.getKey();
                 List<String> times = entry.getValue();
                 Log.d("MainViewModel", "Course: " + course + ", Times: " + times.toString());
             }
 
-            // Update LiveData with the new coursesMap
+
             coursesLiveData.postValue(coursesMap);
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d(TAG, "printFileContents: Failure");
-            // Handle error
+
         }
     }
 
 
 
-    private String readFileContents() { //Reads file contents and returns value for printFileContents
+    private String readFileContents() {
         StringBuilder stringBuilder = new StringBuilder();
         try {
             File file = new File(applicationContext.getFilesDir(), "response_data.txt");
@@ -221,16 +217,6 @@ public class MainViewModel extends AndroidViewModel {
             e.printStackTrace();
         }
         return stringBuilder.toString();
-    }
-
-    void clearSavedData() { //clears saved data for testing
-        SharedPreferences preferences = applicationContext.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.remove("Year");
-        editor.remove("Month");
-        editor.remove("Day");
-        editor.apply();
-        Log.d("MainViewModel", "SHITS GONE");
     }
 
 

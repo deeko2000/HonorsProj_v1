@@ -28,12 +28,11 @@ public class HorseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_horse);
-        // Set custom title
+        // Set title
         setTitle("Horses Page");
 
-        // Retrieve string (horse name) from intent
+        //get horse name from intent
         String horseName = getIntent().getStringExtra("selected_horse");
-        Log.d("HorseActivity", "Horse sent is " + horseName);
 
         LineChart lineChart = findViewById(R.id.lineChart);
 
@@ -52,7 +51,7 @@ public class HorseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // Parse JSON data and fill TextViews with matching fields
+        // Parse JSON data and fill TextViews
         try {
             JSONObject jsonObject = new JSONObject(jsonData.toString());
             JSONArray racecardsArray = jsonObject.getJSONArray("racecards");
@@ -63,7 +62,6 @@ public class HorseActivity extends AppCompatActivity {
                     JSONObject horseObject = runnersArray.getJSONObject(j);
                     String name = horseObject.getString("horse");
                     if (name.equals(horseName)) {
-                        // Fill TextViews with matching fields
                         fillTextViews(horseObject);
                         // Plot the form on the line chart
                         plotFormOnLineChart(horseObject.getString("form"), lineChart, horseName);
@@ -78,7 +76,7 @@ public class HorseActivity extends AppCompatActivity {
 
     private void fillTextViews(JSONObject horseObject) {
         try {
-            // Fill TextViews with matching fields
+            // Fill TextViews
             ((TextView) findViewById(R.id.horseName)).setText("Horse: " + horseObject.getString("horse"));
             ((TextView) findViewById(R.id.horseAge)).setText("Age: " + horseObject.getString("age"));
             ((TextView) findViewById(R.id.horseSex)).setText("Sex: " + horseObject.getString("sex"));
@@ -89,14 +87,12 @@ public class HorseActivity extends AppCompatActivity {
             ((TextView) findViewById(R.id.horseNumber)).setText("Number: " + horseObject.getString("number"));
             ((TextView) findViewById(R.id.horseJockey)).setText("Jockey: " + horseObject.getString("jockey"));
             ((TextView) findViewById(R.id.horseLastRun)).setText("Last Run: " + horseObject.getString("last_run")  + " days");
-            //((TextView) findViewById(R.id.horseForm)).setText("Form: " + horseObject.getString("form"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     private void plotFormOnLineChart(String form, LineChart lineChart, String horseName) {
-        // Replace '0' with '9' in the form variable
         form = form.replace('0', '9');
 
         // Check if form string is empty
@@ -106,19 +102,18 @@ public class HorseActivity extends AppCompatActivity {
             lineChart.setNoDataTextColor(Color.BLACK);
             lineChart.setNoDataTextTypeface(Typeface.DEFAULT_BOLD);
             lineChart.invalidate();
-            return; // Exit the method
+            return;
         }
 
         // Create entries for the line chart
         ArrayList<Entry> entries = new ArrayList<>();
-        int xIndex = 0; // Start index from 0
+        int xIndex = 0;
 
-        // Parse the form string and create entries
+        // Parse the form string
         for (int i = 0; i < form.length(); i++) {
             char result = form.charAt(i);
             if (Character.isDigit(result)) {
                 int value = Character.getNumericValue(result);
-                // Add an entry for each digit in the form string
                 entries.add(new Entry(xIndex, value));
                 xIndex++;
             } else if (result == '-') {
@@ -129,24 +124,22 @@ public class HorseActivity extends AppCompatActivity {
 
         // Create a dataset from the entries
         LineDataSet dataSet = new LineDataSet(entries, horseName + "'s Recent Form");
-        // Set properties for the dataset (e.g., color)
         dataSet.setColor(Color.RED);
         dataSet.setCircleColor(Color.RED);
         dataSet.setCircleRadius(5f);
-        dataSet.setDrawValues(false); // Disable drawing values on the data points
-        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER); // Set bezier curve interpolation
+        dataSet.setDrawValues(false);
+        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-        // Create a LineData object and set the dataset
         LineData lineData = new LineData(dataSet);
 
         // Customize the appearance of the chart
-        lineChart.getDescription().setEnabled(false); // Hide description
-        lineChart.getXAxis().setEnabled(false); // Hide x-axis
-        lineChart.getAxisLeft().setGranularity(1f); // Set granularity of y-axis
-        lineChart.getAxisLeft().setAxisMinimum(1f); // Set minimum value for y-axis
-        lineChart.getAxisLeft().setAxisMaximum(9f); // Set maximum value for y-axis
-        lineChart.getAxisRight().setEnabled(false); // Hide right y-axis
-        lineChart.getAxisLeft().setInverted(true); // Invert y-axis
+        lineChart.getDescription().setEnabled(false);
+        lineChart.getXAxis().setEnabled(false);
+        lineChart.getAxisLeft().setGranularity(1f);
+        lineChart.getAxisLeft().setAxisMinimum(1f);
+        lineChart.getAxisLeft().setAxisMaximum(9f);
+        lineChart.getAxisRight().setEnabled(false);
+        lineChart.getAxisLeft().setInverted(true);
 
         // Add black border
         lineChart.setDrawBorders(true);
@@ -157,6 +150,6 @@ public class HorseActivity extends AppCompatActivity {
         lineChart.setData(lineData);
 
         // Customize chart appearance
-        lineChart.invalidate(); // Refresh chart
+        lineChart.invalidate();
     }
 }

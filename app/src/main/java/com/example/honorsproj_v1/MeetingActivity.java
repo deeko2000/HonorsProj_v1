@@ -19,7 +19,7 @@ public class MeetingActivity extends AppCompatActivity {
     ArrayAdapter<String> adapterRaceview;
     ArrayAdapter<String> adapterListView;
     ListView listView;
-    Map<String, List<String>> horseMap; // Declare horseMap as a member variable
+    Map<String, List<String>> horseMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +32,12 @@ public class MeetingActivity extends AppCompatActivity {
         if (intent != null) {
             String selectedCourse = intent.getStringExtra("selected_course");
             selectedTime = intent.getStringExtra("selected_time");
-            Button myButton = findViewById(R.id.meetingBtn); // Replace R.id.my_button with the ID of your button
+            Button myButton = findViewById(R.id.meetingBtn);
             myButton.setText(selectedCourse);
             timesList = intent.getStringArrayListExtra("times_list");
         }
 
-        // Initialize adapter for AutoCompleteTextView
+        // Initialize adapter
         adapterRaceview = new ArrayAdapter<>(this, R.layout.list_item, timesList);
 
         autoCompleteRaceView = findViewById(R.id.auto_complete_raceView);
@@ -47,33 +47,25 @@ public class MeetingActivity extends AppCompatActivity {
         // Initialize ViewModel
         viewModel = new ViewModelProvider(this).get(MeetingViewModel.class);
 
-        // Initialize ListView and its adapter
         listView = findViewById(R.id.listViewHorses);
         adapterListView = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         listView.setAdapter(adapterListView);
 
-        // Set listener for AutoCompleteTextView selection changes
+
         autoCompleteRaceView.setOnItemClickListener((parent, view, position, id) -> {
-            // Get the selected time from AutoCompleteTextView
+
             String selectedTime = (String) parent.getItemAtPosition(position);
 
-            // Update the ListView based on the selected time
+
             updateListView(selectedTime);
         });
 
-        // Set click listener for ListView items
+
         listView.setOnItemClickListener((adapterView, view, position, id) -> {
-            // Get the clicked item
             String selectedHorseWithNumber = (String) adapterView.getItemAtPosition(position);
-            // Extract only the horse's name from the selected item
             String selectedHorse = selectedHorseWithNumber.replaceAll("^\\d+\\s+", "");
-
-            // Create a new Intent
             Intent horseDetailsIntent = new Intent(MeetingActivity.this, HorseActivity.class);
-            // Pass the horse's name to the intent
             horseDetailsIntent.putExtra("selected_horse", selectedHorse);
-
-            // Start the activity with the intent
             startActivity(horseDetailsIntent);
         });
 
