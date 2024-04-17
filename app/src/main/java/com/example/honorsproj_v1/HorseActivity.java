@@ -348,7 +348,6 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
     public void populateBarchart(Map<String, Double> temp){
         BarChart stackedBarChart = findViewById(R.id.stackedBarChart);
 
-
         List<BarEntry> entries = new ArrayList<>();
         List<String> labels = new ArrayList<>();
         int index = 0;
@@ -357,25 +356,28 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
             labels.add(entry.getKey());
         }
 
-
         BarDataSet dataSet = new BarDataSet(entries, null);
 
         dataSet.setColors(new int[] {Color.BLUE, Color.RED});
 
-
         dataSet.setValueTextSize(10f);
         dataSet.setValueTextColor(Color.BLACK);
 
-
         BarData barData = new BarData(dataSet);
 
-
         stackedBarChart.getDescription().setEnabled(false);
-
-
         stackedBarChart.getLegend().setEnabled(false);
 
         stackedBarChart.setData(barData);
+
+
+        float maxValue = Collections.max(temp.values()).floatValue();
+        stackedBarChart.getAxisLeft().setAxisMaximum(maxValue * 1.1f);
+        stackedBarChart.getAxisLeft().setAxisMinimum(0f);
+
+
+        stackedBarChart.getAxisRight().setEnabled(false);
+        stackedBarChart.getXAxis().setEnabled(false);
 
         stackedBarChart.invalidate();
 
@@ -393,7 +395,6 @@ public class HorseActivity extends AppCompatActivity implements LifecycleOwner {
                 red.setText(" " + labels.get(0));
             }
         });
-
     }
 
 
