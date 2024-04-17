@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-    <!-- TextView to display horse name and form -->
+
     <TextView
         android:id="@+id/tvContent"
         android:layout_width="wrap_content"

@@ -30,10 +30,6 @@ import androidx.lifecycle.ViewModelProvider;
 public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel;
 
-        //Testing arrays for meetings and races
-        String[] meetings = {"Meeting 1", "Meeting 2", "Meeting 3", "Meeting 4", "Meeting 5"};
-        String[] races = {"Race 1", "Race 2", "Race 3", "Race 4", "Race 5"};
-
     LinearLayout linLay1;
     LinearLayout linLay2;
     AutoCompleteTextView autoCompleteTextView1;
@@ -54,17 +50,14 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
-        // Observe changes in coursesLiveData
-
 
         viewModel.getCoursesLiveData().observe(this, new Observer<Map<String, List<String>>>() {
             @Override
             public void onChanged(Map<String, List<String>> coursesMap) {
-                // Clear existing buttons
                 linLay1.removeAllViews();
                 linLay2.removeAllViews();
 
-                // Create a counter for tracking button addition
+
                 int buttonCounter = 0;
                 LinearLayout currentLayout = null;
 
@@ -76,60 +69,59 @@ public class MainActivity extends AppCompatActivity {
                     params.weight = 1;
 
                     Button button = new Button(MainActivity.this);
-                    button.setText(course); // Set button text to course name
+                    button.setText(course);
                     button.setLayoutParams(params);
                     button.setClickable(false);
 
-                    // Check if buttonCounter is odd
+
                     if (buttonCounter % 2 == 0) {
-                        // Create a new LinearLayout for every two buttons
+
                         currentLayout = new LinearLayout(MainActivity.this);
                         currentLayout.setOrientation(LinearLayout.HORIZONTAL);
-                        linLay2.addView(currentLayout); // Add new LinearLayout to linLay2
+                        linLay2.addView(currentLayout);
                     }
 
-                    // Add button to current layout
+
                     currentLayout.addView(button);
 
                     buttonCounter++;
                 }
 
-                // Update UI with keys from the coursesMap
-                // For example, update an ArrayAdapter for an AutoCompleteTextView
+
                 adapterMeetings = new ArrayAdapter<>(MainActivity.this, R.layout.list_item, new ArrayList<>(coursesMap.keySet()));
                 autoCompleteTextView1.setAdapter(adapterMeetings);
             }
         });
 
 
-        // Make API call
+
         viewModel.makeApiCallAndSaveToFile();
-        // Print file contents
+
         viewModel.printFileContents();
 
-        // Set item click listener for autoCompleteTextView1
+
         autoCompleteTextView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 String selectedCourse = adapterView.getItemAtPosition(position).toString();
-                // Get the list of dates for the selected course from coursesLiveData
+
                 List<String> times = viewModel.getCoursesLiveData().getValue().get(selectedCourse);
                 if (times != null) {
-                    // Create ArrayAdapter for dates and set it to autoCompleteTextView2
+
                     ArrayAdapter<String> adapterTimes = new ArrayAdapter<>(MainActivity.this, R.layout.list_item, times);
                     autoCompleteTextView2.setAdapter(adapterTimes);
                 } else {
-                    // If times is null, clear the adapter for autoCompleteTextView2
+
                     autoCompleteTextView2.setAdapter(null);
                 }
-                // Clear the text in autoCompleteTextView2
+
                 autoCompleteTextView2.setText("");
             }
         });
 
 
 
-        // Set item click listener for autoCompleteTextView2
+
         autoCompleteTextView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -138,22 +130,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Button click listener to navigate to MeetingActivity
 
-        // Button click listener to navigate to MeetingActivity
         Button btn = findViewById(R.id.race_button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String selectedCourse = autoCompleteTextView1.getText().toString();
-                String selectedTime = autoCompleteTextView2.getText().toString(); // Get the selected time
+                String selectedTime = autoCompleteTextView2.getText().toString();
                 List<String> timesList = viewModel.getCoursesLiveData().getValue().get(selectedCourse);
 
-                // Check if both course and time are selected
+
                 if (!selectedCourse.isEmpty() && !selectedTime.isEmpty()) {
                     Intent intent = new Intent(MainActivity.this, MeetingActivity.class);
                     intent.putExtra("selected_course", selectedCourse);
-                    intent.putExtra("selected_time", selectedTime); // Pass the selected time to the intent
+                    intent.putExtra("selected_time", selectedTime);
                     intent.putStringArrayListExtra("times_list", new ArrayList<>(timesList));
                     startActivity(intent);
                 } else {

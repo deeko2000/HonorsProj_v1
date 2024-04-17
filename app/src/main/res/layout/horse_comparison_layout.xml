@@ -15,12 +15,12 @@
             android:orientation="vertical"
             android:gravity="center">
 
-            <!-- Your other views here -->
+
 
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/box"> <!-- Set the background to the drawable -->
+                android:background="@drawable/box">
 
                 <TextView
                     android:id="@+id/previousSelectionTextView"
@@ -29,7 +29,7 @@
                     android:padding="20dp"
                     android:text="Previous Selection:  "
                     android:textColor="@android:color/black"
-                    android:textStyle="bold" /> <!-- Set text color to black -->
+                    android:textStyle="bold" />
 
             </FrameLayout>
 
@@ -59,8 +59,7 @@
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Add BarChart below AutoCompleteTextView LINE GRAPH WITH
-            BOTH FORMS VISUALISED-->
+
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/bothLineChart"
@@ -68,16 +67,19 @@
                 android:layout_height="300dp"
                 />
 
-            <!-- Add Stacked BarChart below BarChart average positions
-            of horses across different race distances-->
+
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/stackedBarChart"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:layout_marginTop="16dp"
                 android:background="@android:color/white" />
+            <TextView
+                android:id="@+id/infospbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Average Starting Prices of each horse" />
 
-            <!-- Horizontal LinearLayout for legend -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -85,7 +87,7 @@
                 android:gravity="center_vertical"
                 android:layout_marginTop="16dp">
 
-                <!-- TextView with color square -->
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -96,7 +98,7 @@
                     <View
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@color/colorBlue" /> <!-- Set your color here -->
+                        android:background="@color/colorBlue" />
 
                     <TextView
                         android:id="@+id/redbox"
@@ -105,7 +107,7 @@
                         android:text=" Blue" />
                 </LinearLayout>
 
-                <!-- TextView with color square -->
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -115,7 +117,7 @@
                     <View
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@color/colorRed" /> <!-- Set your color here -->
+                        android:background="@color/colorRed" />
 
                     <TextView
                         android:id="@+id/bluebox"
@@ -125,13 +127,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-            <!-- End of legend -->
-
-            <!-- Add BoxPlot below Stacked BarChart -->
-            <!-- Define your BoxPlot view here -->
-
-
-
 
         </LinearLayout>
 

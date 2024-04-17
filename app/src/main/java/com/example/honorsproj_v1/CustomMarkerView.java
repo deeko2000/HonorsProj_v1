@@ -16,22 +16,20 @@ public class CustomMarkerView extends MarkerView {
 
     public CustomMarkerView(Context context, int layoutResource) {
         super(context, layoutResource);
-        // find your layout components
+
         tvContent = findViewById(R.id.tvContent);
     }
 
-    // callbacks every time the MarkerView is redrawn, can be used to update the
-    // content (user-interface)
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
         if (e instanceof CandleEntry) {
             CandleEntry ce = (CandleEntry) e;
             tvContent.setText("" + Utils.formatNumber(ce.getHigh(), 0, true));
         } else {
-            String data = (String) e.getData(); // Get data set previously
-            tvContent.setText(data); // Set the content to display
+            String data = (String) e.getData();
+            tvContent.setText(data);
         }
-        // this will perform necessary layouting
+
         super.refreshContent(e, highlight);
     }
 }

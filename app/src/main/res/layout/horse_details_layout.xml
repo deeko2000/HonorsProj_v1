@@ -7,21 +7,19 @@
     android:id="@+id/horse_details_layout">
 
 
-
-    <!-- ScrollView for the rest of the layout -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
 
-        <!-- Root LinearLayout -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- LineChart -->
+
             <RelativeLayout
                 android:id="@+id/relLay"
                 android:layout_width="match_parent"
@@ -38,12 +36,12 @@
 
             </RelativeLayout>
 
-            <!-- FrameLayout with Black Border -->
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <!-- LinearLayout for Horse Details -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -51,7 +49,7 @@
                     android:background="@android:color/white"
                     android:padding="16dp">
 
-                    <!-- Horse Details Title -->
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -60,11 +58,11 @@
                         android:textStyle="bold"
                         android:layout_marginBottom="8dp"/>
 
-                    <!-- Horse Information TextViews -->
+
 
                 </LinearLayout>
 
-                <!-- Black Border -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -72,7 +70,7 @@
                     android:padding="2dp"
                     android:background="@android:color/black">
 
-                    <!-- LinearLayout for Horse Details -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -80,7 +78,7 @@
                         android:background="@android:color/white"
                         android:padding="16dp">
 
-                        <!-- Horse Details Title -->
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -89,7 +87,7 @@
                             android:textStyle="bold"
                             android:layout_marginBottom="8dp"/>
 
-                        <!-- Horse Information -->
+
                         <TextView
                             android:id="@+id/horseName"
                             android:layout_width="wrap_content"
